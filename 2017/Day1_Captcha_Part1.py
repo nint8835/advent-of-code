@@ -11,3 +11,7 @@ def solve_captcha(captcha: str) -> int:
             total += int(captcha[0])
 
     return total
+
+
+if __name__ == "__main__":
+    print(solve_captcha(input("Input: ")))
