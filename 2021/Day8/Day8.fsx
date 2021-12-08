@@ -50,11 +50,10 @@ let determineRemainingDigits (definiteDigits: DigitValues) (allVals: string []) 
         ((((((((Set.remove middleLine (Set.difference four one))
                |> Set.toArray))))))).[0]
 
-    let zero = Set.remove middleLine eight
 
     // TODO: The middle / top left line thing is messed up and giving an incorrect result for 3. Needs to be fixed
 
-    let nineAndSix =
+    let zeroSixNine =
         allVals
         |> Array.map Set
         |> Array.map
@@ -67,20 +66,23 @@ let determineRemainingDigits (definiteDigits: DigitValues) (allVals: string []) 
                     match fourIntersection.Count with
                     | 4 -> Some(inputSet, 9)
                     | 3 ->
-                        if Set.contains middleLine fourIntersection then
-                            Some(inputSet, 6)
+                        if (Set.intersect seven inputSet).Count = 3 then
+                            Some(inputSet, 0)
                         else
-                            None
+                            Some(inputSet, 6)
                     | _ -> failwith "this should be unreachable")
         |> Array.filter (Option.isSome)
         |> Array.map (fun option -> option.Value)
         |> Map
 
     let nine =
-        nineAndSix |> Map.findKey (fun k v -> v = 9)
+        zeroSixNine |> Map.findKey (fun k v -> v = 9)
+    
+    let zero =
+        zeroSixNine |> Map.findKey (fun k v -> v = 0)
 
     let six =
-        nineAndSix |> Map.findKey (fun k v -> v = 6)
+        zeroSixNine |> Map.findKey (fun k v -> v = 6)
 
     let twoFiveThree =
         allVals
