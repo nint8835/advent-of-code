@@ -7,9 +7,10 @@ let inputData =
             |> Array.map (fun substr -> substr.Split " "))
 
 let allGivenVals = Array.concat inputData |> Array.concat
-printfn $"%A{inputData}"
 
 type DigitValues = Map<Set<char>, int>
+
+let getIntersectionCount (a: Set<'T>) (b: Set<'T>) : int = Set.intersect a b |> Set.count
 
 let getDefiniteDigits (inputs: string []) : DigitValues =
     inputs
@@ -31,159 +32,70 @@ let getDefiniteDigits (inputs: string []) : DigitValues =
 
 let determineRemainingDigits (definiteDigits: DigitValues) (allVals: string []) : DigitValues =
     let one =
-        definiteDigits |> Map.findKey (fun k v -> v = 1)
+        definiteDigits |> Map.findKey (fun _ v -> v = 1)
 
     let four =
-        definiteDigits |> Map.findKey (fun k v -> v = 4)
+        definiteDigits |> Map.findKey (fun _ v -> v = 4)
 
     let seven =
-        definiteDigits |> Map.findKey (fun k v -> v = 7)
+        definiteDigits |> Map.findKey (fun _ v -> v = 7)
 
     let eight =
-        definiteDigits |> Map.findKey (fun k v -> v = 8)
+        definiteDigits |> Map.findKey (fun _ v -> v = 8)
 
-    let middleLine =
-        (((((((Set.intersect (Set.difference eight one) (Set.difference four one)
-               |> Set.toArray))))))).[0]
-
-    let topLeftLine =
-        ((((((((Set.remove middleLine (Set.difference four one))
-               |> Set.toArray))))))).[0]
-
-
-    // TODO: The middle / top left line thing is messed up and giving an incorrect result for 3. Needs to be fixed
-
-    let zeroSixNine =
-        allVals
-        |> Array.map Set
-        |> Array.map
-            (fun inputSet ->
-                if inputSet.Count <> 6 then
-                    None
-                else
-                    let fourIntersection = Set.intersect four inputSet
-
-                    match fourIntersection.Count with
-                    | 4 -> Some(inputSet, 9)
-                    | 3 ->
-                        if (Set.intersect seven inputSet).Count = 3 then
-                            Some(inputSet, 0)
-                        else
-                            Some(inputSet, 6)
-                    | _ -> failwith "this should be unreachable")
-        |> Array.filter (Option.isSome)
-        |> Array.map (fun option -> option.Value)
-        |> Map
-
-    let nine =
-        zeroSixNine |> Map.findKey (fun k v -> v = 9)
-    
-    let zero =
-        zeroSixNine |> Map.findKey (fun k v -> v = 0)
-
-    let six =
-        zeroSixNine |> Map.findKey (fun k v -> v = 6)
-
-    let twoFiveThree =
-        allVals
-        |> Array.map Set
-        |> Array.map
-            (fun inputSet ->
-                if inputSet.Count <> 5 then
-                    None
-                else
-                    let nineIntersection = Set.intersect nine inputSet
-                    printfn $"9I: %A{nineIntersection} %A{topLeftLine} %A{Set.intersect seven inputSet}"
-                   
-
-                    match nineIntersection.Count with
-                    | 5 ->
-                        if (Set.intersect seven inputSet).Count = 3 then
-                            Some(inputSet, 3)
-                        else
-                            Some(inputSet, 5)
-                    | 4 -> Some(inputSet, 2)
-                    | _ -> failwith "this should be unreachable")
-        |> Array.filter (Option.isSome)
-        |> Array.map (fun option -> option.Value)
-        |> Map
-
-    let two =
-        twoFiveThree |> Map.findKey (fun k v -> v = 2)
-
-    let five =
-        twoFiveThree |> Map.findKey (fun k v -> v = 5)
-
-    let three =
-        twoFiveThree |> Map.findKey (fun k v -> v = 3)
-
-    //    let bottomRightLine =
-//        allVals
-//        |> Array.map Set
-//        |> Array.map (fun inputSet ->
-//            if inputSet.Count <> 5 then return
-//
-//            Set.intersect inputSet seven)
-
-    // 0 (6) = top, top left, top right, bottom left, bottom right, bottom - done
-    // 1 (2) = top right, bottom right - done
-    // 2 (5) = top, top right, middle, bottom left, bottom - done
-    // 3 (5) = top, top right, middle, bottom right, bottom - done
-    // 4 (4) = top left, top right, middle, bottom right - done
-    // 5 (5) = top, top left, middle, bottom right, bottom -done
-    // 6 (6) = top, top left, middle, bottom left, bottom right, bottom - done
-    // 7 (3) = top, top right, bottom right - done
-    // 8 (7) = top, top left, top right, middle, bottom left, bottom right, bottom - done
-    // 9 (6) = top, top left, top right, middle, bottom right, bottom - done
-
-    Map [ (one, 1)
-          (two, 2)
-          (three, 3)
-          (four, 4)
-          (five, 5)
-          (six, 6)
-          (seven, 7)
-          (eight, 8)
-          (nine, 9)
-          (zero, 0) ]
-
-
-let definiteDigits = allGivenVals |> getDefiniteDigits
-
-let outputValues =
-    inputData
-    |> Array.map (fun row -> row.[1] |> Array.map Set)
-
-let definiteDigitOutputCount =
-    outputValues
-    |> Array.concat
-    |> Array.filter (definiteDigits.ContainsKey)
-    |> Array.length
-
-printfn $"Part A: %d{definiteDigitOutputCount}"
-
-let digitValues =
-    determineRemainingDigits definiteDigits allGivenVals
-
-printfn $"%A{digitValues}"
-
-let fiveDigitValues =
-    digitValues |> Map.filter (fun k v -> k.Count = 5)
-
-printfn $"%A{fiveDigitValues}"
-
-let outputNumberSum =
-    outputValues
+    allVals
+    |> Array.map Set
     |> Array.map
         (fun value ->
-            value
-            |> Array.map
-                (fun valSet ->
-                    printfn $"%A{valSet}"
-                    digitValues.[valSet])
-            |> Array.map string
-            |> String.concat ""
-            |> int)
-    |> Array.sum
+            (value,
+             [| one; four; seven; eight |]
+             |> Array.map (getIntersectionCount value)
+             |> Array.map string
+             |> String.concat ""
+             |> int))
+    |> Array.map
+        (fun (charSet, intersections) ->
+            match intersections with
+            | 2222 -> (charSet, 1)
+            | 1225 -> (charSet, 2)
+            | 2335 -> (charSet, 3)
+            | 2424 -> (charSet, 4)
+            | 1325 -> (charSet, 5)
+            | 1326 -> (charSet, 6)
+            | 2233 -> (charSet, 7)
+            | 2437 -> (charSet, 8)
+            | 2436 -> (charSet, 9)
+            | 2336 -> (charSet, 0)
+            | _ -> failwithf $"Unexpected intersection number %d{intersections} for charset %A{charSet}")
+    |> Map
 
-printfn $"%A{outputNumberSum}"
+let calculateDigitValues (row: string [] []) : (int * int) =
+    let definiteDigits = row |> Array.concat |> getDefiniteDigits
+
+    let outputValues = row.[1] |> Array.map Set
+
+    let definiteDigitOutputCount =
+        outputValues
+        |> Array.filter (definiteDigits.ContainsKey)
+        |> Array.length
+
+    let digitValues =
+        determineRemainingDigits definiteDigits (Array.concat row)
+
+    let outputNumber =
+        outputValues
+        |> Array.map (fun outVal -> digitValues.[outVal])
+        |> Array.map string
+        |> String.concat ""
+        |> int
+
+    (definiteDigitOutputCount, outputNumber)
+
+let inputResults =
+    inputData |> Array.map calculateDigitValues
+
+let definiteDigits = inputResults |> Array.sumBy fst
+let outputSum = inputResults |> Array.sumBy snd
+
+printfn $"Part A: %d{definiteDigits}"
+printfn $"Part B: %d{outputSum}"
