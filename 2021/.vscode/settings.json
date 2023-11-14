@@ -1,0 +1,12 @@
+{
+    "editor.formatOnSave": false,
+    "emeraldwalk.runonsave": {
+        "commands": [
+            {
+                "match": ".fsx",
+                "isAsync": false,
+                "cmd": "dotnet tool run fantomas ${file}"
+            }
+        ]
+    }
+}
