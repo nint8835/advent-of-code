@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "golang.go",
+        "ionide.ionide-fsharp",
+        "ms-python.black-formatter",
+        "ms-python.isort",
+        "ms-python.python",
+    ]
+}

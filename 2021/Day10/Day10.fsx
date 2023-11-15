@@ -10,8 +10,7 @@ type Token =
 
 let tokenizeString (str: string) : Token list =
     str
-    |> Seq.map
-        (function
+    |> Seq.map (function
         | '[' -> Open Square
         | ']' -> Close Square
         | '(' -> Open Round
@@ -28,45 +27,43 @@ let rec valueError (line: Token list) : int option =
 
     try
         line
-        |> List.map
-            (fun token ->
-                match token with
-                | Open _ ->
-                    stack <- stack @ [ token ]
-                    None
-                | Close bracket ->
-                    let lastBracket = stack.[stack.Length - 1]
+        |> List.map (fun token ->
+            match token with
+            | Open _ ->
+                stack <- stack @ [ token ]
+                None
+            | Close bracket ->
+                let lastBracket = stack.[stack.Length - 1]
 
-                    match lastBracket with
-                    | Open openToken ->
-                        if bracket = openToken then
-                            stack <- stack.[..stack.Length - 2]
-                            None
-                        else
-                            match bracket with
-                            | Round -> Some(3)
-                            | Square -> Some(57)
-                            | Curly -> Some(1197)
-                            | Angle -> Some(25137)
-                    | n -> failwithf $"Unexpected token %A{n}")
+                match lastBracket with
+                | Open openToken ->
+                    if bracket = openToken then
+                        stack <- stack.[.. stack.Length - 2]
+                        None
+                    else
+                        match bracket with
+                        | Round -> Some(3)
+                        | Square -> Some(57)
+                        | Curly -> Some(1197)
+                        | Angle -> Some(25137)
+                | n -> failwithf $"Unexpected token %A{n}")
         |> List.find Option.isSome
-    with
-    | :? System.Collections.Generic.KeyNotFoundException -> None
+    with :? System.Collections.Generic.KeyNotFoundException ->
+        None
 
 let rec valueAutocomplete (line: Token list) : int64 =
     let mutable stack = []
 
     line
-    |> List.iter
-        (fun token ->
-            match token with
-            | Open _ -> stack <- stack @ [ token ]
-            | Close _ ->
-                let lastBracket = stack.[stack.Length - 1]
+    |> List.iter (fun token ->
+        match token with
+        | Open _ -> stack <- stack @ [ token ]
+        | Close _ ->
+            let lastBracket = stack.[stack.Length - 1]
 
-                match lastBracket with
-                | Open _ -> stack <- stack.[..stack.Length - 2]
-                | n -> failwithf $"Unexpected token %A{n}")
+            match lastBracket with
+            | Open _ -> stack <- stack.[.. stack.Length - 2]
+            | n -> failwithf $"Unexpected token %A{n}")
 
     stack
     |> List.rev
@@ -85,8 +82,7 @@ let rec valueAutocomplete (line: Token list) : int64 =
 
 
 let inputData =
-    (System.IO.File.ReadAllText "Day10/input.txt")
-        .Split "\n"
+    (System.IO.File.ReadAllText "Day10/input.txt").Split "\n"
     |> Array.map tokenizeString
 
 let errorSum =

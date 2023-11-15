@@ -1,22 +1,22 @@
 let inputData =
-    (System.IO.File.ReadAllText "Day6/input.txt")
-        .Split ","
-    |> Array.map int
+    (System.IO.File.ReadAllText "Day6/input.txt").Split "," |> Array.map int
 
-let updateAt (index: int) (value: 'T) (array: 'T []) : 'T [] =
+let updateAt (index: int) (value: 'T) (array: 'T[]) : 'T[] =
     let newArray = Array.copy array
     Array.set newArray index value
     newArray
 
 let fishCount =
     inputData
-    |> Array.fold (fun acc fish -> acc |> updateAt fish (acc.[fish] + 1L)) [| 0L; 0L; 0L; 0L; 0L; 0L; 0L; 0L; 0L |]
+    |> Array.fold
+        (fun acc fish -> acc |> updateAt fish (acc.[fish] + 1L))
+        [| 0L; 0L; 0L; 0L; 0L; 0L; 0L; 0L; 0L |]
 
-let rec simulateLanternFish (days: int) (fish: int64 []) =
+let rec simulateLanternFish (days: int) (fish: int64[]) =
     match days with
     | 0 -> fish
     | n ->
-        [| 0 .. 8 |]
+        [| 0..8 |]
         |> Array.fold
             (fun acc i ->
                 match i with

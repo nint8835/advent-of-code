@@ -181,5 +181,8 @@ cython_debug/
 # Go workspace file
 go.work
 
+.fake
+.idea
+
 i
 input.txt
