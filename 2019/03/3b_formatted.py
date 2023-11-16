@@ -42,11 +42,13 @@ print(
                         }[m[0][0]](int(m[0][1:]))
                     ),
                 },
-                s + int(m[0][1:])
+                s + int(m[0][1:]),
             )
             if len(m) != 0
             else p
         )((f := open("i").read().split("\n"))[0].split(","), 0, 0, {}, 0),
-        sorted([s + a[c] for c, s in w(f[1].split(","), 0, 0, {}, 0).items() if c in a])[0],
+        sorted(
+            [s + a[c] for c, s in w(f[1].split(","), 0, 0, {}, 0).items() if c in a]
+        )[0],
     )[1]
 )
