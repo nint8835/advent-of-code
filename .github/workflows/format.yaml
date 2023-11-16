@@ -1,0 +1,32 @@
+name: Format code
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  format:
+    name: Format code
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup .Net
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Install .Net tools
+        run: dotnet tool restore
+
+      - name: Run fantomas
+        run: dotnet fantomas .
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
