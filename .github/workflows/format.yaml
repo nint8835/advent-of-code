@@ -9,6 +9,7 @@ jobs:
   format:
     name: Format code
     runs-on: ubuntu-latest
+    concurrency: edit-repo
 
     permissions:
       contents: write

@@ -9,6 +9,7 @@ jobs:
   readme:
     name: Generate readmes
     runs-on: ubuntu-latest
+    concurrency: edit-repo
 
     permissions:
       contents: write
