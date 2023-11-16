@@ -38,7 +38,7 @@ with open("README.md", "w") as f:
 
     for year, days in languages.items():
         f.write(
-            f"| [{year}](https://adventofcode.com/{year}) | {len(days)} | {', '.join(set(days.values()))} | [Solutions](./{year}) |\n"
+            f"| [{year}](https://adventofcode.com/{year}) | {len(days)} | {', '.join(sorted(set(days.values())))} | [Solutions](./{year}) |\n"
         )
 
 for year, days in languages.items():
