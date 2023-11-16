@@ -13,13 +13,13 @@ language_extensions = {
 
 languages: dict[str, dict[str, str]] = {}
 
-for path in pathlib.Path().iterdir():
+for path in sorted(pathlib.Path().iterdir(), key=lambda p: p.name):
     if not path.is_dir() or not year_pattern.match(path.name):
         continue
 
     languages[path.name] = {}
 
-    for subpath in path.iterdir():
+    for subpath in sorted(path.iterdir(), key=lambda p: p.name):
         if not subpath.is_dir() or not day_pattern.match(subpath.name):
             continue
 
