@@ -3,8 +3,6 @@ open System.Text.RegularExpressions
 
 type PossiblePartNumber =
     { PartNumber: int
-      StartPosition: int * int
-      Length: int
       AdjacencyBoxStart: int * int
       AdjacencyBoxEnd: int * int }
 
@@ -22,8 +20,6 @@ let possiblePartNumbers =
         |> Seq.filter _.Success
         |> Seq.map (fun partMatch ->
             { PartNumber = int partMatch.Value
-              StartPosition = partMatch.Index, y
-              Length = partMatch.Length
               AdjacencyBoxStart =
                 Math.Max(partMatch.Index - 1, 0), Math.Max(y - 1, 0)
               AdjacencyBoxEnd =
