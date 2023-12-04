@@ -1,7 +1,7 @@
 type Card =
     { CardNumber: int
       Count: int
-      Groups: Set<int> array }
+      MatchCount: int }
 
 let inputData =
     System.IO.File.ReadAllText("input.txt").Split "\n"
@@ -12,7 +12,7 @@ let inputData =
             (((cardParts[0]).Split(" ") |> Array.filter ((<>) ""))[1]).Trim()
             |> int
 
-        let groups =
+        let matchCount =
             (cardParts[1]).Split(" | ")
             |> Array.map (fun (group: string) ->
                 group.Split " "
@@ -20,19 +20,19 @@ let inputData =
                 |> Array.filter ((<>) "")
                 |> Array.map int
                 |> Set.ofArray)
+            |> Array.reduce Set.intersect
+            |> Set.toArray
+            |> _.Length
 
         { CardNumber = cardNumber
           Count = 1
-          Groups = groups })
+          MatchCount = matchCount })
 
 let partA =
     inputData
-    |> Array.map _.Groups
-    |> Array.map (fun card ->
-        let matchCount =
-            card |> Array.reduce Set.intersect |> Set.toArray |> _.Length
-
-        if matchCount > 0 then pown 2 (matchCount - 1) else 0)
+    |> Array.map _.MatchCount
+    |> Array.filter ((<>) 0)
+    |> Array.map (fun count -> pown 2 (count - 1))
     |> Array.sum
 
 let rec processPartB (currentIndex: int) (cards: Card array) : Card array =
@@ -41,15 +41,11 @@ let rec processPartB (currentIndex: int) (cards: Card array) : Card array =
     else
         let currentCard = cards.[currentIndex]
 
-        let winCount =
-            currentCard.Groups
-            |> Array.reduce Set.intersect
-            |> Set.toArray
-            |> _.Length
-
         let updatedCards =
             seq {
-                currentCard.CardNumber .. currentCard.CardNumber + winCount - 1
+                currentCard.CardNumber .. currentCard.CardNumber
+                                          + currentCard.MatchCount
+                                          - 1
             }
             |> Seq.toArray
             |> Array.fold
