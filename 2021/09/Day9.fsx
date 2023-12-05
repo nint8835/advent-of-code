@@ -31,47 +31,6 @@ let calculateLowPointsSum (grid: int[,]) : int =
 
     lowPointsSum
 
-//let findBasinSize (grid: int [,]) (start: int * int) (visited: Set<int * int>) : int =
-//    let mutable openList = [ start ]
-//    let mutable totalSize = 0
-//
-//    while openList.Length <> 0 do
-//        let  nextPos, remainder = openList
-//        openList <- remainder
-//
-//        let y, x = nextPos
-//
-//        let newOpenItems =
-//            if grid.[y, x] = 9 || visited.Contains(y, x) then
-//                []
-//            else
-//                List.concat [ if x <> 0 then [ (y, x - 1) ] else []
-//                              if x < width then [ (y, x + 1) ] else []
-//                              if y <> 0 then [ (y - 1, x) ] else []
-//                              if y < height then
-//                                  [ (y + 1, x) ]
-//                              else
-//                                  [] ]
-//
-//        0
-//
-//
-//    0
-
-
-//let findBasins (grid: int [,]) : int =
-//    let visitedNodes = Set<int * int> []
-//
-//    let basins = [||]
-//
-//
-//    for x = 0 to width do
-//        for y = 0 to height do
-//            if grid.[y, x] = 9 || visitedNodes.Contains(x, y) then
-//                //                pas
-//                0
-
-
 let partA = inputData |> calculateLowPointsSum
 
 printfn $"%d{partA}"
