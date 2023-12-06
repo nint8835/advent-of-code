@@ -7,3 +7,4 @@
 | [03](https://adventofcode.com/2023/day/03) | F# | [Solution](./03) |
 | [04](https://adventofcode.com/2023/day/04) | F# | [Solution](./04) |
 | [05](https://adventofcode.com/2023/day/05) | F# | [Solution](./05) |
+| [06](https://adventofcode.com/2023/day/06) | F# | [Solution](./06) |
