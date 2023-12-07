@@ -21,8 +21,7 @@ let calculateCardSortKey
     (orderString: string)
     (handType: HandType, cards: string)
     =
-    let cardRanks =
-        cards |> Seq.map orderString.IndexOf |> Seq.toArray
+    let cardRanks = cards |> Seq.map orderString.IndexOf |> Seq.toArray
 
     (handType,
      cardRanks[0],
