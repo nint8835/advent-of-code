@@ -1,5 +1,3 @@
-import sys
-
 lines = list(map(lambda x: x.replace("\n", ""), open("input_2a.txt").readlines()))
 min = 10000
 min_p = (0, 0)

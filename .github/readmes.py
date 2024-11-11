@@ -1,6 +1,5 @@
 import pathlib
 import re
-from pprint import pprint
 
 year_pattern = re.compile(r"^\d{4}$")
 day_pattern = re.compile(r"^\d{2}$")
