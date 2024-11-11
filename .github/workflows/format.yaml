@@ -40,11 +40,8 @@ jobs:
       - name: Install Python tools
         run: pip install -r requirements.txt
 
-      - name: Run black
-        run: black .
-
-      - name: Run isort
-        run: isort .
+      - name: Run ruff
+        run: ruff check --exit-zero --fix --select I && ruff format
 
       - name: Setup Go
         uses: actions/setup-go@v4
