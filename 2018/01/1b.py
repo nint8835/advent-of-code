@@ -1,4 +1,5 @@
 import sys
+
 total = 0
 seen = []
 lines = list(open("input_1b.txt").readlines())
