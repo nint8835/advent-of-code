@@ -1,4 +1,4 @@
-let inputData = (System.IO.File.ReadAllText "Day6/input.txt")
+let inputData = (System.IO.File.ReadAllText "input.txt")
 
 let findMarker (size: int) (input: string) : int =
     input

@@ -1,4 +1,4 @@
-let inputData = (System.IO.File.ReadAllText "Day5/input.txt").Split "\n\n"
+let inputData = (System.IO.File.ReadAllText "input.txt").Split "\n\n"
 
 type Instruction =
     { count: int

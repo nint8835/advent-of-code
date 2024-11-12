@@ -1,4 +1,4 @@
-let inputData = (System.IO.File.ReadAllText "Day3/input.txt").Split "\n"
+let inputData = (System.IO.File.ReadAllText "input.txt").Split "\n"
 
 
 let getPriority (item: char) : int =

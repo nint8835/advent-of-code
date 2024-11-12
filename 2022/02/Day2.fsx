@@ -6,7 +6,7 @@ let getCharCode (char: string) : int = (("ABCXYZ".IndexOf char) %! 3) + 1
 
 
 let inputData =
-    (System.IO.File.ReadAllText "Day2/input.txt").Split "\n"
+    (System.IO.File.ReadAllText "input.txt").Split "\n"
     |> Array.map (fun line -> line.Split " " |> Array.map getCharCode)
     |> Array.map (fun line -> (line[0], line[1]))
 
