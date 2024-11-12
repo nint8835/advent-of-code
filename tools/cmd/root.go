@@ -1,11 +1,14 @@
 package cmd
 
 import (
+	"errors"
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"strings"
 
+	"github.com/joho/godotenv"
 	"github.com/spf13/cobra"
 )
 
@@ -21,22 +24,25 @@ func Execute() {
 	}
 }
 
-func ensureWorkingDirectory() {
+func prepareToRun() {
 	cmd := exec.Command("git", "rev-parse", "--show-toplevel")
 	out, err := cmd.Output()
 	if err != nil {
-		_, _ = fmt.Fprintf(os.Stderr, "Failed to locate git repo root: %s\n", err)
-		os.Exit(1)
+		log.Fatalf("failed to determine repo root: %v", err)
 	}
 
 	repoRoot := strings.TrimSpace(string(out))
 
 	if err := os.Chdir(repoRoot); err != nil {
-		_, _ = fmt.Fprintf(os.Stderr, "Failed to change working directory to repo root: %s\n", err)
-		os.Exit(1)
+		log.Fatalf("failed to change directory to repo root: %v", err)
+	}
+
+	err = godotenv.Load()
+	if err != nil && !errors.Is(err, os.ErrNotExist) {
+		log.Fatalf("failed to load .env file: %v", err)
 	}
 }
 
 func init() {
-	cobra.OnInitialize(ensureWorkingDirectory)
+	cobra.OnInitialize(prepareToRun)
 }
