@@ -9,10 +9,10 @@ import (
 )
 
 var testsEncryptCmd = &cobra.Command{
-	Use:   "encrypt",
-	Short: "Encrypt saved input / output values for all tests",
+	Use:   "encrypt [year] [day]",
+	Short: "Encrypt saved input / output values for a given test",
 	Run: func(cmd *cobra.Command, args []string) {
-		err := tests.EncryptAllFiles()
+		err := tests.EncryptDayFiles(args[0], args[1])
 		if err != nil {
 			log.Fatalf("failed to encrypt files: %v", err)
 		}

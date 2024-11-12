@@ -184,5 +184,5 @@ go.work
 .fake
 .idea
 
-i
 input.txt
+output.txt
