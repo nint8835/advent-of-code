@@ -117,3 +117,84 @@ func EncryptAllFiles() error {
 
 	return nil
 }
+
+func decryptFile(path string) error {
+	i, err := makeIdentity()
+	if err != nil {
+		return fmt.Errorf("failed to create recipient: %w", err)
+	}
+
+	encryptedFilePath := path + ".enc"
+
+	inputFile, err := os.Open(encryptedFilePath)
+	if err != nil {
+		return fmt.Errorf("failed to open input file: %w", err)
+	}
+	defer utils.DeferClose(inputFile)
+
+	outputFile, err := os.Create(path)
+	if err != nil {
+		return fmt.Errorf("failed to create output file: %w", err)
+	}
+	defer utils.DeferClose(outputFile)
+
+	armorReader := armor.NewReader(inputFile)
+
+	decryptedOut, err := age.Decrypt(armorReader, i)
+	if err != nil {
+		return fmt.Errorf("failed to create decryption reader: %w", err)
+	}
+
+	_, err = io.Copy(outputFile, decryptedOut)
+	if err != nil {
+		return fmt.Errorf("failed to copy input to output: %w", err)
+	}
+
+	return nil
+}
+
+func DecryptDayFiles(year, day string) error {
+	dayPath := filepath.Join(year, day)
+	inputPath := filepath.Join(dayPath, inputFileName)
+	outputPath := filepath.Join(dayPath, outputFileName)
+
+	if err := decryptFile(inputPath); err != nil && !errors.Is(err, os.ErrNotExist) {
+		return fmt.Errorf("failed to decrypt input file: %w", err)
+	}
+
+	if err := decryptFile(outputPath); err != nil && !errors.Is(err, os.ErrNotExist) {
+		return fmt.Errorf("failed to decrypt output file: %w", err)
+	}
+
+	return nil
+}
+
+func DecryptYearFiles(year string) error {
+	days, err := solutions.ListYearDays(year)
+	if err != nil {
+		return fmt.Errorf("failed to list year days: %w", err)
+	}
+
+	for _, day := range days {
+		if err := DecryptDayFiles(year, day); err != nil {
+			return fmt.Errorf("failed to decrypt day files: %w", err)
+		}
+	}
+
+	return nil
+}
+
+func DecryptAllFiles() error {
+	years, err := solutions.ListYears()
+	if err != nil {
+		return fmt.Errorf("failed to list years: %w", err)
+	}
+
+	for _, year := range years {
+		if err := DecryptYearFiles(year); err != nil {
+			return fmt.Errorf("failed to decrypt year files: %w", err)
+		}
+	}
+
+	return nil
+}
