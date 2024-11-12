@@ -2,7 +2,7 @@ type Position = { x: int; y: int; aim: int }
 type Movement = { forward: int; up: int; down: int }
 
 let inputData =
-    (System.IO.File.ReadAllText "Day2/input.txt").Split "\n"
+    (System.IO.File.ReadAllText "input.txt").Split "\n"
     |> Array.map (fun s -> s.Split(" "))
     |> Array.map (fun item -> (item.[0], int item.[1]))
 

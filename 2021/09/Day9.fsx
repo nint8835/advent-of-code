@@ -1,5 +1,5 @@
 let inputData =
-    (System.IO.File.ReadAllText "Day9/input.txt").Split "\n"
+    (System.IO.File.ReadAllText "input.txt").Split "\n"
     |> Array.map (fun line ->
         line |> Seq.toArray |> Array.map string |> Array.map int)
     |> array2D

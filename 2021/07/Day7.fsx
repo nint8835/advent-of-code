@@ -1,7 +1,7 @@
 open System
 
 let inputData =
-    (System.IO.File.ReadAllText "Day7/input.txt").Split "," |> Array.map int
+    (System.IO.File.ReadAllText "input.txt").Split "," |> Array.map int
 
 /// Mode of calculating movement costs.
 type CostMode =

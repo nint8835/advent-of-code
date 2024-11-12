@@ -1,6 +1,5 @@
 let inputData =
-    (System.IO.File.ReadAllText "Day3/input.txt").Split "\n"
-    |> Array.map Seq.toArray
+    (System.IO.File.ReadAllText "input.txt").Split "\n" |> Array.map Seq.toArray
 
 let getGammaOrEpsilon pred (input: char[][]) =
     [| 0 .. input.[0].Length - 1 |]

@@ -1,5 +1,5 @@
 let inputData =
-    (System.IO.File.ReadAllText "Day6/input.txt").Split "," |> Array.map int
+    (System.IO.File.ReadAllText "input.txt").Split "," |> Array.map int
 
 let updateAt (index: int) (value: 'T) (array: 'T[]) : 'T[] =
     let newArray = Array.copy array

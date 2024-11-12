@@ -1,5 +1,5 @@
 let inputData =
-    (System.IO.File.ReadAllText "Day1/input.txt").Split "\n" |> Array.map int
+    (System.IO.File.ReadAllText "input.txt").Split "\n" |> Array.map int
 
 let getIncreasingWindows windowSize (array: int[]) =
     array

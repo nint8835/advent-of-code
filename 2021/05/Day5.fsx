@@ -1,6 +1,6 @@
 open System
 
-let inputData = (System.IO.File.ReadAllText "Day5/input.txt").Split "\n"
+let inputData = (System.IO.File.ReadAllText "input.txt").Split "\n"
 
 let getLineEnds (input: string[]) =
     input

@@ -82,7 +82,7 @@ let rec valueAutocomplete (line: Token list) : int64 =
 
 
 let inputData =
-    (System.IO.File.ReadAllText "Day10/input.txt").Split "\n"
+    (System.IO.File.ReadAllText "input.txt").Split "\n"
     |> Array.map tokenizeString
 
 let errorSum =

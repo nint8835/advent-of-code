@@ -1,4 +1,4 @@
-let inputData = (System.IO.File.ReadAllText "Day4/input.txt").Split "\n"
+let inputData = (System.IO.File.ReadAllText "input.txt").Split "\n"
 
 let bingoCalls = inputData.[0].Split "," |> Array.map int |> Array.toList
 
