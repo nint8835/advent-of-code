@@ -1,12 +1,13 @@
-let inputData = (System.IO.File.ReadAllText "input.txt")
+open System.IO
+
+let inputData = File.ReadAllText "input.txt"
 
 let findMarker (size: int) (input: string) : int =
     input
-    |> Array.ofSeq
-    |> Array.windowed size
-    |> Array.map (fun window -> (window |> Set.ofArray |> Set.count))
-    |> Array.findIndex (fun uniqueCount -> uniqueCount = size)
+    |> Seq.windowed size
+    |> Seq.map (fun window -> (window |> Set.ofArray |> Set.count))
+    |> Seq.findIndex ((=) size)
     |> (+) size
 
-printfn $"%A{findMarker 4 inputData}"
-printfn $"%A{findMarker 14 inputData}"
+inputData |> findMarker 4 |> printfn "%A"
+inputData |> findMarker 14 |> printfn "%A"
