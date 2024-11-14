@@ -1,4 +1,9 @@
-let inputData = (System.IO.File.ReadAllText "input.txt").Split "\n"
+#load "../../utils/Utils.fsx"
+
+open System.IO
+open Utils
+
+let inputData = File.ReadAllText "input.txt" |> String.split "\n"
 
 
 let getPriority (item: char) : int =
@@ -27,5 +32,5 @@ let partAGroups (input: string[]) : string[][] =
 
 let partBGroups (input: string[]) : string[][] = input |> Array.chunkBySize 3
 
-printfn $"%A{inputData |> calculatePriority partAGroups}"
-printfn $"%A{inputData |> calculatePriority partBGroups}"
+inputData |> calculatePriority partAGroups |> printfn "%A"
+inputData |> calculatePriority partBGroups |> printfn "%A"
