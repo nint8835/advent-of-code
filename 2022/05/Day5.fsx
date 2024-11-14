@@ -1,4 +1,9 @@
-let inputData = (System.IO.File.ReadAllText "input.txt").Split "\n\n"
+#load "../../utils/Utils.fsx"
+
+open System.IO
+open Utils
+
+let inputData = File.ReadAllText "input.txt" |> String.split "\n\n"
 
 type Instruction =
     { count: int
@@ -11,7 +16,6 @@ let applyMovement
     (instruction: Instruction)
     : char[][] =
     grid
-    |> Array.copy
     |> Array.updateAt
         (instruction.from_col - 1)
         grid[instruction.from_col - 1].[instruction.count ..]
@@ -29,15 +33,15 @@ let getTopString
     : string =
     instructions
     |> Array.fold (applyMovement reverse) grid
-    |> Array.map (fun col -> col[0])
+    |> Array.map Array.head
     |> Array.map string
     |> String.concat ""
 
-let gridLines = inputData[0].Split "\n"
+let gridLines = inputData |> Array.head |> String.split "\n"
 
 let stackCount =
     Array.last gridLines
-    |> (fun line -> line.Split " ")
+    |> String.split " "
     |> Array.filter (fun index -> index.Length <> 0)
     |> Array.map int
     |> Array.last
@@ -47,19 +51,15 @@ let grid: char[][] =
     |> Array.map (fun columnNum ->
         gridLines[.. gridLines.Length - 2]
         |> Array.map (fun line -> line[4 * (columnNum - 1) + 1])
-        |> Array.filter (fun entry -> entry <> ' '))
+        |> Array.filter ((<>) ' '))
 
 let instructions =
     inputData[1].Split "\n"
-    |> Array.map (fun instruction -> instruction.Split " ")
+    |> Array.map (String.split " ")
     |> Array.map (fun instruction ->
         { count = int instruction[1]
           from_col = int instruction[3]
           to_col = int instruction[5] })
 
-let partAStr = getTopString true instructions grid
-
-let partBStr = getTopString false instructions grid
-
-printfn $"{partAStr}"
-printfn $"{partBStr}"
+getTopString true instructions grid |> printfn "%A"
+getTopString false instructions grid |> printfn "%A"
