@@ -1,5 +1,10 @@
+#load "../../utils/Utils.fsx"
+
+open System.IO
+open Utils
+
 let inputData =
-    (System.IO.File.ReadAllText "input.txt").Split "\n" |> Array.map int
+    File.ReadAllText "input.txt" |> String.split "\n" |> Array.map int
 
 let getIncreasingWindows windowSize (array: int[]) =
     array
@@ -9,8 +14,5 @@ let getIncreasingWindows windowSize (array: int[]) =
     |> Array.filter (fun window -> window.[1] > window.[0])
     |> Array.length
 
-let partA = inputData |> getIncreasingWindows 1
-let partB = inputData |> getIncreasingWindows 3
-
-printfn $"Part A: %d{partA}"
-printfn $"Part B: %d{partB}"
+inputData |> getIncreasingWindows 1 |> printfn "Part A: %d"
+inputData |> getIncreasingWindows 3 |> printfn "Part B: %d"
