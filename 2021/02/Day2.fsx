@@ -1,9 +1,15 @@
+#load "../../utils/Utils.fsx"
+
+open System.IO
+open Utils
+
 type Position = { x: int; y: int; aim: int }
 type Movement = { forward: int; up: int; down: int }
 
 let inputData =
-    (System.IO.File.ReadAllText "input.txt").Split "\n"
-    |> Array.map (fun s -> s.Split(" "))
+    File.ReadAllText "input.txt"
+    |> String.split "\n"
+    |> Array.map (String.split " ")
     |> Array.map (fun item -> (item.[0], int item.[1]))
 
 let getFinalPosition useAim (inputData: (string * int)[]) : Position =
