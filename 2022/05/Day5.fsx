@@ -61,5 +61,5 @@ let instructions =
           from_col = int instruction[3]
           to_col = int instruction[5] })
 
-getTopString true instructions grid |> printfn "%A"
-getTopString false instructions grid |> printfn "%A"
+getTopString true instructions grid |> printfn "%s"
+getTopString false instructions grid |> printfn "%s"
