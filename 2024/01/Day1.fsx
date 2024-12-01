@@ -6,30 +6,20 @@ open Utils
 let inputData =
     File.ReadAllText "input.txt"
     |> String.split "\n"
-    |> Array.map (fun line ->
-        line |> String.split " " |> Array.filter ((<>) "") |> Array.map int)
+    |> Array.map (String.split "   " >> Array.map int >> Array.toTuple2)
 
-let leftHalf = inputData |> Array.map (fun line -> line |> Array.head)
+let leftHalf, rightHalf = inputData |> Array.unzip
 
-let rightHalf = inputData |> Array.map (fun line -> line |> Array.last)
-
-let rightHalfCounts = rightHalf |> Array.countBy id
+let rightHalfCounts = rightHalf |> Array.countBy id |> Map.ofArray
 
 let partA =
     Array.zip (Array.sort leftHalf) (Array.sort rightHalf)
-    |> Array.map (fun (a, b) -> abs (a - b))
-    |> Array.sum
+    |> Array.sumBy (fun pair -> pair ||> (-) |> abs)
 
 let partB =
     leftHalf
-    |> Array.map (fun a ->
-        rightHalfCounts
-        |> Array.tryFind (fun (b, _) -> a = b)
-        |> (function
-        | Some(_, count) -> count
-        | None -> 0)
-        |> (*) a)
-    |> Array.sum
+    |> Array.sumBy (fun a ->
+        rightHalfCounts |> Map.tryFind a |> Option.defaultValue 0 |> (*) a)
 
 partA |> printfn "%A"
 partB |> printfn "%A"
