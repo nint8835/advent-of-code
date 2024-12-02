@@ -4,8 +4,7 @@ open System.IO
 open Utils
 
 let inputData =
-    File.ReadAllText "input.txt"
-    |> String.split "\n"
+    File.ReadAllLines "input.txt"
     |> Array.map (String.split " " >> Array.map int)
 
 let reportIsSafe (report: int[]) : bool =
@@ -15,10 +14,10 @@ let reportIsSafe (report: int[]) : bool =
     (report = sortedAscending || report = sortedDescending)
     && report
        |> Array.windowed 2
-       |> Array.map (fun pair -> pair.[0] - pair.[1] |> abs)
+       |> Array.map (fun pair -> pair[0] - pair[1] |> abs)
        |> Array.forall (fun diff -> diff >= 1 && diff <= 3)
 
-let partA = inputData |> Array.filter (reportIsSafe)
+let partA = inputData |> Array.filter reportIsSafe
 
 let partB =
     inputData
