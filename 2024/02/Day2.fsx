@@ -8,17 +8,24 @@ let inputData =
     |> String.split "\n"
     |> Array.map (String.split " " >> Array.map int)
 
-let safeReports =
+let reportIsSafe (report: int[]) : bool =
+    let sortedAscending = Array.sort report
+    let sortedDescending = Array.sortDescending report
+
+    (report = sortedAscending || report = sortedDescending)
+    && report
+       |> Array.windowed 2
+       |> Array.map (fun pair -> pair.[0] - pair.[1] |> abs)
+       |> Array.forall (fun diff -> diff >= 1 && diff <= 3)
+
+let partA = inputData |> Array.filter (reportIsSafe)
+
+let partB =
     inputData
     |> Array.filter (fun report ->
-        let sortedAscending = Array.sort report
-        let sortedDescending = Array.sortDescending report
+        [| 0 .. report.Length - 1 |]
+        |> Array.map (fun i -> report |> Array.removeAt i)
+        |> Array.exists reportIsSafe)
 
-        report = sortedAscending || report = sortedDescending)
-    |> Array.filter (fun report ->
-        report
-        |> Array.windowed 2
-        |> Array.map (fun pair -> pair.[0] - pair.[1] |> abs)
-        |> Array.forall (fun diff -> diff >= 1 && diff <= 3))
-
-safeReports |> _.Length |> printfn "%A"
+partA |> _.Length |> printfn "%A"
+partB |> _.Length |> printfn "%A"
