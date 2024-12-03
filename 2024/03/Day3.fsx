@@ -23,8 +23,7 @@ let partB =
             | "don't()" -> (sum, false)
             | _ when enabled ->
                 (sum
-                 + int matchVal.Groups[2].Value
-                   * int matchVal.Groups[3].Value,
+                 + int matchVal.Groups[2].Value * int matchVal.Groups[3].Value,
                  enabled)
             | _ -> (sum, enabled))
         (0, true)
