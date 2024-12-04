@@ -10,71 +10,79 @@ let inputData =
 
 let inputWidth, inputHeight = inputData.GetLength 1, inputData.GetLength 0
 
+let checkRange
+    (xCoords: int[])
+    (yCoords: int[])
+    (rangeSelector: int -> int -> (int * int) * (int * int))
+    (requiredStr: string)
+    : (int * int)[] =
+    xCoords
+    |> Array.map (fun x ->
+        yCoords
+        |> Array.filter (fun y ->
+            let start, finish = rangeSelector x y
+
+            let value =
+                inputData |> Array2D.range start finish |> String.concat ""
+
+            (value = requiredStr) || (value = (String.reverse requiredStr)))
+        |> Array.map (fun y -> (x, y)))
+    |> Array.concat
+
 let horizontalOccurrences =
-    [| 0 .. inputHeight - 1 |]
-    |> Array.map (fun y ->
+    checkRange
         [| 0 .. inputWidth - 4 |]
-        |> Array.map (fun x ->
-            inputData |> Array2D.range (x, y) (x + 3, y) |> String.concat "")
-        |> Array.filter (fun str -> str = "XMAS" || str = "SAMX"))
+        [| 0 .. inputHeight - 1 |]
+        (fun x y -> ((x, y), (x + 3, y)))
+        "XMAS"
 
 let verticalOccurrences =
-    [| 0 .. inputWidth - 1 |]
-    |> Array.map (fun x ->
+    checkRange
+        [| 0 .. inputWidth - 1 |]
         [| 0 .. inputHeight - 4 |]
-        |> Array.map (fun y ->
-            inputData |> Array2D.range (x, y) (x, y + 3) |> String.concat "")
-        |> Array.filter (fun str -> str = "XMAS" || str = "SAMX"))
+        (fun x y -> ((x, y), (x, y + 3)))
+        "XMAS"
+
 
 let diagonalDownOccurrences =
-    [| 0 .. inputWidth - 4 |]
-    |> Array.map (fun x ->
+    checkRange
+        [| 0 .. inputWidth - 4 |]
         [| 0 .. inputHeight - 4 |]
-        |> Array.map (fun y ->
-            inputData
-            |> Array2D.range (x, y) (x + 3, y + 3)
-            |> String.concat "")
-        |> Array.filter (fun str -> str = "XMAS" || str = "SAMX"))
+        (fun x y -> ((x, y), (x + 3, y + 3)))
+        "XMAS"
 
 let diagonalUpOccurrences =
-    [| 0 .. inputWidth - 4 |]
-    |> Array.map (fun x ->
+    checkRange
+        [| 0 .. inputWidth - 4 |]
         [| 3 .. inputHeight - 1 |]
-        |> Array.map (fun y ->
-            inputData
-            |> Array2D.range (x, y) (x + 3, y - 3)
-            |> String.concat "")
-        |> Array.filter (fun str -> str = "XMAS" || str = "SAMX"))
+        (fun x y -> ((x, y), (x + 3, y - 3)))
+        "XMAS"
 
 let partA =
-    Array.concat
-        [| horizontalOccurrences
-           verticalOccurrences
-           diagonalDownOccurrences
-           diagonalUpOccurrences |]
-    |> Array.map Array.length
+    [| horizontalOccurrences
+       verticalOccurrences
+       diagonalDownOccurrences
+       diagonalUpOccurrences |]
+    |> Array.map _.Length
     |> Array.sum
 
-let partB =
-    [| 0 .. inputWidth - 3 |]
-    |> Array.map (fun x ->
+let downRightMas =
+    checkRange
+        [| 0 .. inputWidth - 3 |]
         [| 0 .. inputHeight - 3 |]
-        |> Array.map (fun y ->
-            let downRight =
-                inputData
-                |> Array2D.range (x, y) (x + 2, y + 2)
-                |> String.concat ""
+        (fun x y -> ((x, y), (x + 2, y + 2)))
+        "MAS"
+    |> Set.ofArray
 
-            let upRight =
-                inputData
-                |> Array2D.range (x, y + 2) (x + 2, y)
-                |> String.concat ""
+let upRightMas =
+    checkRange
+        [| 0 .. inputWidth - 3 |]
+        [| 0 .. inputHeight - 3 |]
+        (fun x y -> ((x, y + 2), (x + 2, y)))
+        "MAS"
+    |> Set.ofArray
 
-            (downRight = "MAS" || downRight = "SAM")
-            && (upRight = "MAS" || upRight = "SAM")))
-    |> Array.concat
-    |> Array.filter id
-    |> Array.length
+let partB = Set.intersect downRightMas upRightMas |> Set.count
 
 partA |> printfn "%A"
 partB |> printfn "%A"

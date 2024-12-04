@@ -4,6 +4,10 @@ module String =
     /// Similar to FSharpPlus's version, but returns an array instead of a generic sequence for ease of performing subsequent operations in solutions without requiring a call to Seq.toArray.
     let split (separator: string) (str: string) : string[] = str.Split separator
 
+    /// Reverse a given string.
+    let reverse (str: string) : string =
+        str |> Seq.toArray |> Array.rev |> Array.map string |> String.concat ""
+
 [<RequireQualifiedAccess>]
 module Array =
     /// Converts an array containing two elements to a tuple.
