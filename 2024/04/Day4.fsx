@@ -20,10 +20,10 @@ let checkRange
     |> Array.map (fun x ->
         yCoords
         |> Array.filter (fun y ->
-            let start, finish = rangeSelector x y
-
             let value =
-                inputData |> Array2D.range start finish |> String.concat ""
+                inputData
+                |> (rangeSelector x y ||> Array2D.range)
+                |> String.concat ""
 
             (value = requiredStr) || (value = (String.reverse requiredStr)))
         |> Array.map (fun y -> (x, y)))
