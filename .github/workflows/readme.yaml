@@ -23,7 +23,8 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version-file: 'tools/go.mod'
+          go-version-file: "tools/go.mod"
+          cache-dependency-path: "tools/go.sum"
 
       - name: Generate readmes
         run: go run . readmes
