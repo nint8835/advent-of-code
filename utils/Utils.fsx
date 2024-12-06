@@ -39,3 +39,18 @@ module Array2D =
                 [| startY .. (sign (endY - startY)) .. endY |]
 
         Array.zip xValues yValues |> Array.map (fun (x, y) -> arr[y, x])
+
+    /// Flattens a 2D array into a 1D array.
+    let flatten (arr: 'T[,]) : 'T[] =
+        let y = Array2D.length1 arr
+        let x = Array2D.length2 arr
+
+        Array.init (x * y) (fun i -> arr.[i / y, i % y])
+
+    /// Find indices in an array where a given predicate is true.
+    let findIndices (predicate: 'T -> bool) (arr: 'T[,]) : (int * int)[] =
+        arr
+        |> Array2D.mapi (fun y x value -> (x, y, value))
+        |> flatten
+        |> Array.filter (fun (_, _, value) -> predicate value)
+        |> Array.map (fun (x, y, _) -> (x, y))
