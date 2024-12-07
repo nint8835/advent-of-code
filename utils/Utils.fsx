@@ -18,6 +18,33 @@ module Array =
 
         (arr[0], arr[1])
 
+    /// Generate a list of all permutations of a given size for the provided array, with repetition not allowed.
+    let permutations (size: int) (items: 'T[]) : 'T[][] =
+        let rec permute (size: int) (items: 'T[]) (acc: 'T[]) : 'T[][] =
+            if size = 0 then
+                [| acc |]
+            else
+                items
+                |> Array.collect (fun item ->
+                    permute
+                        (size - 1)
+                        (items |> Array.filter ((<>) item))
+                        (Array.append acc [| item |]))
+
+        permute size items [||]
+
+    /// Generate a list of all permutations of a given size for the provided array, with repetition allowed.
+    let permutationsWithRepetition (size: int) (items: 'T[]) : 'T[][] =
+        let rec permute (size: int) (items: 'T[]) (acc: 'T[]) : 'T[][] =
+            if size = 0 then
+                [| acc |]
+            else
+                items
+                |> Array.collect (fun item ->
+                    permute (size - 1) (items) (Array.append acc [| item |]))
+
+        permute size items [||]
+
 [<RequireQualifiedAccess>]
 module Array2D =
     /// Extracts a range of values from a 2D array.
