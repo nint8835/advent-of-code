@@ -16,12 +16,10 @@ let inputIsValid
     (operators: (uint64 -> uint64 -> uint64)[])
     ((target, values): (uint64 * uint64[]))
     : bool =
-    let operatorPermutations =
-        Array.permutationsWithRepetition (values.Length - 1) operators
-
-    operatorPermutations
+    operators
+    |> Array.permutationsWithRepetition (values.Length - 1)
     |> Array.exists (fun operatorArr ->
-        Array.zip (Array.skip 1 values) operatorArr
+        Array.zip (values |> Array.skip 1) operatorArr
         |> Array.fold
             (fun acc (value, operator) -> operator acc value)
             values[0]
