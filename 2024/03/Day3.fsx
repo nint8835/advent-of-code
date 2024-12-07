@@ -1,30 +1,37 @@
 open System.IO
 open System.Text.RegularExpressions
 
-let partARegex = Regex(@"mul\((\d+),(\d+)\)")
-let partBRegex = Regex(@"(mul\((\d+),(\d+)\)|do\(\)|don't\(\))")
+let instructionRegex =
+    Regex(
+        @"((?'instruction'mul)\((?'a'\d+),(?'b'\d+)\)|(?'instruction'do)\(\)|(?'instruction'don't)\(\))"
+    )
+
+let (|Do|Dont|Mul|) (matchVal: Match) =
+    match matchVal.Groups["instruction"].Value with
+    | "do" -> Do
+    | "don't" -> Dont
+    | _ -> Mul(int matchVal.Groups["a"].Value, int matchVal.Groups["b"].Value)
 
 let inputData = File.ReadAllText "input.txt"
 
 let partA =
     inputData
-    |> partARegex.Matches
-    |> Seq.map (fun mulMatch ->
-        int mulMatch.Groups[1].Value * int mulMatch.Groups[2].Value)
+    |> instructionRegex.Matches
+    |> Seq.map (function
+        | Do -> 0
+        | Dont -> 0
+        | Mul(a, b) -> a * b)
     |> Seq.sum
 
 let partB =
     inputData
-    |> partBRegex.Matches
+    |> instructionRegex.Matches
     |> Seq.fold
         (fun (sum, enabled) matchVal ->
-            match matchVal.Groups.[1].Value with
-            | "do()" -> (sum, true)
-            | "don't()" -> (sum, false)
-            | _ when enabled ->
-                (sum
-                 + int matchVal.Groups[2].Value * int matchVal.Groups[3].Value,
-                 enabled)
+            match matchVal with
+            | Do -> (sum, true)
+            | Dont -> (sum, false)
+            | Mul(a, b) when enabled -> (sum + a * b, enabled)
             | _ -> (sum, enabled))
         (0, true)
     |> fst

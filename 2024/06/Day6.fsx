@@ -35,13 +35,17 @@ let getMoveOffset (direction: GuardDirection) : int * int =
     | Left -> (-1, 0)
     | Right -> (1, 0)
 
+type SearchResult =
+    { SeenPositions: Set<(int * int) * GuardDirection>
+      IsLoop: bool }
+
 [<TailCall>]
 let rec performSearch
     (obstacles: Set<(int * int)>)
     (position: int * int)
     (direction: GuardDirection)
     (seenPositions: Set<(int * int) * GuardDirection>)
-    : (Set<(int * int) * GuardDirection> * bool) =
+    : SearchResult =
     let offset = getMoveOffset direction
     let newPosition = (fst position + fst offset, snd position + snd offset)
 
@@ -51,9 +55,11 @@ let rec performSearch
         (fst newPosition < 0 || fst newPosition >= gridWidth)
         || (snd newPosition < 0 || snd newPosition >= gridHeight)
     then
-        seenPositions, false
+        { SeenPositions = seenPositions
+          IsLoop = false }
     else if seenPositions.Contains(newPosition, direction) then
-        seenPositions, true
+        { SeenPositions = seenPositions
+          IsLoop = true }
     else
         performSearch
             obstacles
@@ -68,7 +74,7 @@ let visited =
         initialGuardPosition
         Up
         (Set.singleton (initialGuardPosition, Up))
-    |> fst
+    |> _.SeenPositions
     |> Set.map fst
 
 visited |> Set.count |> printfn "%A"
@@ -81,6 +87,6 @@ visited
         initialGuardPosition
         Up
         Set.empty)
-|> Array.filter snd
+|> Array.filter _.IsLoop
 |> Array.length
 |> printfn "%A"
