@@ -81,3 +81,10 @@ module Array2D =
         |> flatten
         |> Array.filter (fun (_, _, value) -> predicate value)
         |> Array.map (fun (x, y, _) -> (x, y))
+
+
+[<RequireQualifiedAccess>]
+module Tuple =
+    /// Add two tuples together.
+    let inline add2 (a: 'T * 'T) (b: 'T * 'T) : 'T * 'T =
+        (fst a + fst b, snd a + snd b)

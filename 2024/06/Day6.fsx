@@ -47,13 +47,13 @@ let rec performSearch
     (seenPositions: Set<(int * int) * GuardDirection>)
     : SearchResult =
     let offset = getMoveOffset direction
-    let newPosition = (fst position + fst offset, snd position + snd offset)
+    let newPosition = Tuple.add2 position offset
+    let newX, newY = newPosition
 
-    if obstacles.Contains newPosition then
+    if obstacles |> Set.contains newPosition then
         performSearch obstacles position (rotateGuard direction) seenPositions
     else if
-        (fst newPosition < 0 || fst newPosition >= gridWidth)
-        || (snd newPosition < 0 || snd newPosition >= gridHeight)
+        (newX < 0 || newX >= gridWidth) || (newY < 0 || newY >= gridHeight)
     then
         { SeenPositions = seenPositions
           IsLoop = false }
@@ -65,7 +65,7 @@ let rec performSearch
             obstacles
             newPosition
             direction
-            (Set.add (newPosition, direction) seenPositions)
+            (seenPositions |> Set.add (newPosition, direction))
 
 
 let visited =

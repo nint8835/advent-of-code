@@ -43,7 +43,6 @@ let verticalOccurrences =
         (fun x y -> ((x, y), (x, y + 3)))
         "XMAS"
 
-
 let diagonalDownOccurrences =
     checkRange
         [| 0 .. inputWidth - 4 |]
@@ -63,8 +62,7 @@ let partA =
        verticalOccurrences
        diagonalDownOccurrences
        diagonalUpOccurrences |]
-    |> Array.map _.Length
-    |> Array.sum
+    |> Array.sumBy Array.length
 
 let downRightMas =
     checkRange
