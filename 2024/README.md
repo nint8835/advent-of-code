@@ -9,3 +9,4 @@
 | [05](https://adventofcode.com/2024/day/05) | F# | [Solution](./05) |
 | [06](https://adventofcode.com/2024/day/06) | F# | [Solution](./06) |
 | [07](https://adventofcode.com/2024/day/07) | F# | [Solution](./07) |
+| [08](https://adventofcode.com/2024/day/08) | F# | [Solution](./08) |
