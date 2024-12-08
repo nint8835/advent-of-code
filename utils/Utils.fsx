@@ -88,3 +88,7 @@ module Tuple =
     /// Add two tuples together.
     let inline add2 (a: 'T * 'T) (b: 'T * 'T) : 'T * 'T =
         (fst a + fst b, snd a + snd b)
+
+    /// Subtract one tuple from another.
+    let inline subtract2 (a: 'T * 'T) (b: 'T * 'T) : 'T * 'T =
+        (fst a - fst b, snd a - snd b)
