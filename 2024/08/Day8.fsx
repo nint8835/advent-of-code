@@ -13,23 +13,21 @@ let inputWidth, inputHeight = inputData.GetLength 1, inputData.GetLength 0
 let antennas =
     inputData
     |> Array2D.findIndices (fun x -> x <> ".")
-    |> Array.groupBy (fun (x, y) -> inputData.[y, x])
-    |> Map.ofArray
+    |> Array.groupBy (fun (x, y) -> inputData[y, x])
+    |> Array.map snd
 
-let partA =
+
+let findAntipoles (stepStart: int) (stepEnd: int) : int =
     antennas
-    |> Map.values
-    |> Seq.toArray
-    |> Array.map (fun (coords: (int * int)[]) ->
+    |> Array.map (fun coords ->
         coords
         |> Array.permutations 2
         |> Array.map Array.toTuple2
         |> Array.map (fun (a, b) ->
-            let diff = Tuple.subtract2 b a
-            let potentialAntiNode1 = Tuple.add2 b diff
-            let potentialAntiNode2 = Tuple.subtract2 a diff
+            let run, rise = Tuple.subtract2 b a
 
-            [| potentialAntiNode1; potentialAntiNode2 |])
+            [| stepStart..stepEnd |]
+            |> Array.map (fun step -> Tuple.add2 a (run * step, rise * step)))
         |> Array.concat
         |> Set.ofArray)
     |> Set.unionMany
@@ -37,29 +35,5 @@ let partA =
         x >= 0 && x < inputWidth && y >= 0 && y < inputHeight)
     |> Set.count
 
-let partB =
-    antennas
-    |> Map.values
-    |> Seq.toArray
-    |> Array.map (fun (coords: (int * int)[]) ->
-        coords
-        |> Array.permutations 2
-        |> Array.map Array.toTuple2
-        |> Array.map (fun (a, b) ->
-            let diff = Tuple.subtract2 b a
-
-            seq {
-                for step in 1..inputHeight do
-                    let offset = (fst diff * step, snd diff * step)
-                    yield Tuple.add2 a offset
-            }
-            |> Seq.toArray)
-        |> Array.concat
-        |> Set.ofArray)
-    |> Set.unionMany
-    |> Set.filter (fun (x, y) ->
-        x >= 0 && x < inputWidth && y >= 0 && y < inputHeight)
-    |> Set.count
-
-printfn "%A" partA
-printfn "%A" partB
+findAntipoles 2 2 |> printfn "%A"
+findAntipoles 1 inputHeight |> printfn "%A"
