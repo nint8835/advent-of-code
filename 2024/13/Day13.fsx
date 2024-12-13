@@ -7,24 +7,19 @@ open System.Text.RegularExpressions
 let coordinateRegex = Regex(@"[+=](\d+)")
 
 type Machine =
-    { A: int64 * int64
-      B: int64 * int64
-      Prize: int64 * int64 }
+    { A: float * float
+      B: float * float
+      Prize: float * float }
 
 let solveSystem
-    (a: int64 * int64)
-    (b: int64 * int64)
-    (prize: int64 * int64)
-    : int64 * int64 =
-    let x1, x2 = fst a, fst b
-    let y1, y2 = snd a, snd b
-    let pX, pY = fst prize, snd prize
+    ((aX, aY): float * float)
+    ((bX, bY): float * float)
+    ((pX, pY): float * float)
+    : float * float =
+    ((pX * bY - pY * bX) / (aX * bY - aY * bX),
+     (aX * pY - aY * pX) / (aX * bY - aY * bX))
 
-    let det = x1 * y2 - x2 * y1
-    let detX = pX * y2 - x2 * pY
-    let detY = x1 * pY - pX * y1
-
-    detX / det, detY / det
+let isInteger (v: float) : bool = abs (v - floor v) < 1e-10
 
 
 let inputData =
@@ -37,12 +32,12 @@ let inputData =
             |> Array.map (fun line ->
                 let matches = coordinateRegex.Matches line
 
-                (int64 matches[0].Groups.[1].Value,
-                 int64 matches[1].Groups.[1].Value))
+                (float matches[0].Groups.[1].Value,
+                 float matches[1].Groups.[1].Value))
 
         { A = a; B = b; Prize = prize })
 
-let findTokens (prizeCoordinateMutator: int64 -> int64) : int =
+let findTokens (prizeCoordinateMutator: float -> float) : float =
     inputData
     |> Array.map (fun machine ->
         solveSystem
@@ -51,15 +46,13 @@ let findTokens (prizeCoordinateMutator: int64 -> int64) : int =
             (prizeCoordinateMutator (fst machine.Prize),
              prizeCoordinateMutator (snd machine.Prize)),
         machine)
-    |> Array.filter (fun ((aPresses, bPresses), machine) ->
-        aPresses >= 0L
-        && bPresses >= 0L
-        && (aPresses * fst machine.A + bPresses * fst machine.B) = fst
-            machine.Prize
-        && (aPresses * snd machine.A + bPresses * snd machine.B) = snd
-            machine.Prize)
+    |> Array.filter (fun ((aPresses, bPresses), _) ->
+        aPresses >= 0.0
+        && bPresses >= 0.0
+        && isInteger aPresses
+        && isInteger bPresses)
     |> Array.sumBy (fun ((aPresses, bPresses), _) ->
-        int (3L * aPresses + bPresses))
+        (3.0 * aPresses + bPresses))
 
-findTokens id |> printfn "%d"
-findTokens (fun v -> v + 10000000000000L) |> printfn "%d"
+findTokens id |> uint64 |> printfn "%d"
+findTokens (fun v -> v + 10000000000000.0) |> uint64 |> printfn "%d"
