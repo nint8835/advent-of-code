@@ -65,6 +65,9 @@ inputData
 |> Array.fold (*) 1
 |> printfn "%A"
 
+// Images cannot be unit tested, and SkiaSharp does not work automatically in GitHub Actions
+CI.exitIfCI ()
+
 Directory.CreateDirectory "images"
 
 [| 0..10000 |]

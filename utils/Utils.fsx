@@ -1,3 +1,5 @@
+open System
+
 [<RequireQualifiedAccess>]
 module String =
     /// Pipelinable version of the .Split method on strings.
@@ -92,3 +94,9 @@ module Tuple =
     /// Subtract one tuple from another.
     let inline subtract2 (a: 'T * 'T) (b: 'T * 'T) : 'T * 'T =
         (fst a - fst b, snd a - snd b)
+
+[<RequireQualifiedAccess>]
+module CI =
+    let exitIfCI () =
+        if Environment.GetEnvironmentVariable("GITHUB_ACTIONS") = "true" then
+            Environment.Exit 0

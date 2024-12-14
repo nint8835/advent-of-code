@@ -34,6 +34,11 @@ func ExecuteFile(file string) ([]byte, error) {
 	cmd := exec.Command(execArgs[0], execArgs[1:]...)
 	output, err := cmd.Output()
 	if err != nil {
+		if exitErr, ok := err.(*exec.ExitError); ok {
+			fmt.Printf("Stdout: %s\n", string(output))
+			fmt.Printf("Stderr: %s\n", string(exitErr.Stderr))
+		}
+
 		return nil, fmt.Errorf("failed to execute file: %w", err)
 	}
 
