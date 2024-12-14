@@ -15,3 +15,4 @@
 | [11](https://adventofcode.com/2024/day/11) | F# | [Solution](./11) |
 | [12](https://adventofcode.com/2024/day/12) | F# | [Solution](./12) |
 | [13](https://adventofcode.com/2024/day/13) | F# | [Solution](./13) |
+| [14](https://adventofcode.com/2024/day/14) | F# | [Solution](./14) |
