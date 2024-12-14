@@ -1,7 +1,9 @@
 #load "../../utils/Utils.fsx"
+#r "nuget: SkiaSharp"
 
 open System.IO
 open Utils
+open SkiaSharp
 
 /// Euclidean remainder, the proper modulo operation
 /// Taken from https://stackoverflow.com/a/35848799
@@ -62,3 +64,38 @@ inputData
 |> Array.map (snd >> Array.length)
 |> Array.fold (*) 1
 |> printfn "%A"
+
+Directory.CreateDirectory "images"
+
+[| 0..10000 |]
+|> Array.fold
+    (fun robots i ->
+        let surface =
+            SKSurface.Create(
+                new SKImageInfo(
+                    areaWidth,
+                    areaHeight,
+                    SKColorType.Rgba8888,
+                    SKAlphaType.Premul
+                )
+            )
+
+        let canvas = surface.Canvas
+        canvas.DrawColor(SKColors.White)
+
+        robots
+        |> Array.map _.Position
+        |> Set.ofArray
+        |> Set.iter (fun (x, y) ->
+            canvas.DrawPoint(
+                new SKPoint(float32 x, float32 y),
+                new SKPaint(Color = SKColors.Black, StrokeWidth = 0.0f)
+            ))
+
+        let image = surface.Snapshot()
+        let data = image.Encode(SKEncodedImageFormat.Png, 100)
+        let path = Path.Combine("images", $"{i}.png")
+        File.WriteAllBytes(path, data.ToArray())
+
+        Array.map tick robots)
+    inputData
