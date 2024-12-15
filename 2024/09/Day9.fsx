@@ -37,31 +37,28 @@ let rec moveBlocksPtA (input: int option[]) : int option[] =
         newArray |> moveBlocksPtA
 
 let moveBlocksPtB (input: int option[]) (target: int) : int option[] =
-    let availableGaps =
-        input
-        |> Array.indexed
-        |> Array.filter (fun (i, v) -> v |> Option.isNone)
-        |> Array.filter (fun (i, _) ->
-            i < (input |> Array.findIndex (fun v -> v = Some target)))
-        |> Array.map fst
-        |> Array.map (fun i ->
-            (i,
-             input
-             |> Array.skip i
-             |> Array.takeWhile Option.isNone
-             |> Array.length))
-
+    let targetIndex = input |> Array.findIndex (fun v -> v = Some target)
     let targetSize = fileSizes |> Map.find target
 
+    let beforeTarget = input |> Array.take targetIndex
+
     let targetGap =
-        availableGaps |> Array.tryFind (fun (_, gap) -> gap >= targetSize)
+        beforeTarget
+        |> Array.indexed
+        |> Array.Parallel.filter (fun (_, v) -> v |> Option.isNone)
+        |> Array.tryFind (fun (i, _) ->
+            (beforeTarget
+             |> Array.skip i
+             |> Array.takeWhile Option.isNone
+             |> Array.length)
+            >= targetSize)
 
     match targetGap with
     | None -> input
     | Some(i, _) ->
         let targetRemovedArr =
             input
-            |> Array.mapi (fun j v ->
+            |> Array.Parallel.mapi (fun j v ->
                 match v with
                 | Some t when t = target -> None
                 | _ -> v)
