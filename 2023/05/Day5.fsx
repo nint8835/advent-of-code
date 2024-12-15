@@ -1,3 +1,5 @@
+// aoc-tools:stars 1
+
 type Range =
     { Destination: uint64 * uint64
       Source: uint64 * uint64 }

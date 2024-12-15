@@ -18,8 +18,8 @@ func GenerateYearReadme(year string) error {
 
 	_, err = readme.WriteString(fmt.Sprintf(`# Advent of Code %s
 
-| Day | Language | Solution |
-| --- | -------- | -------- |
+| Day | Stars | Language | Solution |
+| --- | ----- | -------- | -------- |
 `, year))
 	if err != nil {
 		return fmt.Errorf("failed to write readme header: %w", err)
@@ -45,10 +45,15 @@ func GenerateYearReadme(year string) error {
 			langStrings[i] = string(lang)
 		}
 
+		stars, err := solutions.GetDayStars(year, day)
+		if err != nil {
+			return fmt.Errorf("failed to get day stars: %w", err)
+		}
+
 		_, err = readme.WriteString(
 			fmt.Sprintf(
-				"| [%s](https://adventofcode.com/%s/day/%s) | %s | [Solution](./%s) |\n",
-				day, year, day, langStrings[0], day,
+				"| [%s](https://adventofcode.com/%s/day/%s) | %d | %s | [Solution](./%s) |\n",
+				day, year, day, stars, langStrings[0], day,
 			),
 		)
 		if err != nil {

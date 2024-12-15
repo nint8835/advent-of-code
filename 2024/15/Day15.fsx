@@ -1,3 +1,4 @@
+// aoc-tools:stars 1
 #load "../../utils/Utils.fsx"
 
 open System.IO

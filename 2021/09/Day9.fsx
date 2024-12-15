@@ -1,3 +1,5 @@
+// aoc-tools:stars 1
+
 let inputData =
     (System.IO.File.ReadAllText "input.txt").Split "\n"
     |> Array.map (fun line ->

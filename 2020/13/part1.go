@@ -1,3 +1,5 @@
+// aoc-tools:stars 1
+
 package main
 
 import (

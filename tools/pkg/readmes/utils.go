@@ -58,3 +58,23 @@ func determineYearLanguages(year string) ([]languages.Language, error) {
 
 	return langs, nil
 }
+
+func determineYearStars(year string) (int, error) {
+	days, err := solutions.ListYearDays(year)
+	if err != nil {
+		return 0, fmt.Errorf("failed to list year days: %w", err)
+	}
+
+	var stars int
+
+	for _, day := range days {
+		starsForDay, err := solutions.GetDayStars(year, day)
+		if err != nil {
+			return 0, fmt.Errorf("failed to count day stars: %w", err)
+		}
+
+		stars += starsForDay
+	}
+
+	return stars, nil
+}

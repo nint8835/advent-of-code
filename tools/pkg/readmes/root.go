@@ -20,8 +20,8 @@ func GenerateRootReadme() error {
 
 My solutions to [Advent of Code](https://adventofcode.com/).
 
-| Year | Days | Languages | Solutions |
-| ---- | ---- | --------- | --------- |
+| Year | Stars | Languages | Solutions |
+| ---- | ----- | --------- | --------- |
 `)
 	if err != nil {
 		return fmt.Errorf("failed to write readme header: %w", err)
@@ -30,11 +30,6 @@ My solutions to [Advent of Code](https://adventofcode.com/).
 	years, err := solutions.ListYears()
 
 	for _, year := range years {
-		days, err := solutions.ListYearDays(year)
-		if err != nil {
-			return fmt.Errorf("failed to list year days: %w", err)
-		}
-
 		langs, err := determineYearLanguages(year)
 		if err != nil {
 			return fmt.Errorf("failed to determine year languages: %w", err)
@@ -45,10 +40,15 @@ My solutions to [Advent of Code](https://adventofcode.com/).
 			langStrings[i] = string(lang)
 		}
 
+		stars, err := determineYearStars(year)
+		if err != nil {
+			return fmt.Errorf("failed to determine year stars: %w", err)
+		}
+
 		_, err = readme.WriteString(
 			fmt.Sprintf(
 				"| [%s](https://adventofcode.com/%s) | %d | %s | [Solutions](./%s) |\n",
-				year, year, len(days), strings.Join(langStrings, ", "), year,
+				year, year, stars, strings.Join(langStrings, ", "), year,
 			),
 		)
 		if err != nil {

@@ -1,11 +1,14 @@
 package solutions
 
 import (
+	"errors"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"regexp"
 	"slices"
+	"strings"
 
 	"github.com/nint8835/advent-of-code/tools/pkg/languages"
 )
@@ -87,4 +90,33 @@ func ListDayFiles(year, day string) ([]string, error) {
 	}
 
 	return files, nil
+}
+
+// GetDayStars returns the number of stars earned for a given day
+func GetDayStars(year, day string) (int, error) {
+	files, err := ListDayFiles(year, day)
+	if err != nil {
+		return 0, fmt.Errorf("failed to list day files: %w", err)
+	}
+
+	for _, file := range files {
+		f, err := os.Open(filepath.Join(year, day, file))
+		if err != nil {
+			return 0, fmt.Errorf("failed to open file: %w", err)
+		}
+		defer f.Close()
+
+		fileBytes, err := io.ReadAll(f)
+		if err != nil {
+			return 0, fmt.Errorf("failed to read file: %w", err)
+		}
+
+		if strings.Contains(string(fileBytes), "aoc-tools:stars 1") {
+			return 1, nil
+		} else {
+			return 2, nil
+		}
+	}
+
+	return 0, errors.New("no files found")
 }
