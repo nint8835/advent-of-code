@@ -8,9 +8,10 @@ import (
 )
 
 var executeCmd = map[Language][]string{
-	LanguagePython: {"python"},
-	LanguageGo:     {"go", "run"},
-	LanguageFSharp: {"dotnet", "fsi"},
+	LanguagePython:            {"python"},
+	LanguageGo:                {"go", "run"},
+	LanguageFSharp:            {"echo"},
+	LanguageFSharpInteractive: {"dotnet", "fsi"},
 }
 
 func ExecuteFile(file string) ([]byte, error) {
