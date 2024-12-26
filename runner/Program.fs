@@ -1,2 +1,7 @@
-﻿// For more information see https://aka.ms/fsharp-console-apps
-printfn "Hello from F#"
+﻿open System
+
+[<EntryPoint>]
+let main args =
+    let targetFile = args |> Array.head
+
+    0
