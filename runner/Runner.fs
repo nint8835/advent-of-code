@@ -25,6 +25,8 @@ let main args =
     let solveMethod = solutionType.GetMethod "solve" |> NullToOption |> function
         | Some solveMethod -> solveMethod
         | None -> failwith "solve method not found"
+        
+    dayFolder.FullName |> Directory.SetCurrentDirectory
     
     solveMethod.Invoke(null, [||]) |> ignore
 
