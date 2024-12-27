@@ -21,6 +21,6 @@ let partB =
     |> Array.sumBy (fun a ->
         rightHalfCounts |> Map.tryFind a |> Option.defaultValue 0 |> (*) a)
 
-let solve() : unit =
+let solve () : unit =
     partA |> printfn "%A"
     partB |> printfn "%A"

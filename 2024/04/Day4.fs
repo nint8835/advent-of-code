@@ -1,7 +1,7 @@
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2024.D04
 
 open System.IO
-open Utils
+open AdventOfCode.Solutions.Utils
 
 let inputData =
     File.ReadAllLines "input.txt"
@@ -82,5 +82,6 @@ let upRightMas =
 
 let partB = Set.intersect downRightMas upRightMas |> Set.count
 
-partA |> printfn "%A"
-partB |> printfn "%A"
+let solve () : unit =
+    partA |> printfn "%A"
+    partB |> printfn "%A"

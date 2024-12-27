@@ -1,7 +1,7 @@
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2024.D10
 
 open System.IO
-open Utils
+open AdventOfCode.Solutions.Utils
 
 let inputData =
     File.ReadAllLines "input.txt"
@@ -32,10 +32,11 @@ let rec findPeaks ((x, y): int * int) : Set<int * int> * int =
 let searchResult =
     inputData |> Array2D.findIndices ((=) 0) |> Array.map findPeaks
 
-searchResult
-|> Array.map fst
-|> Array.map Set.count
-|> Array.sum
-|> printfn "%A"
+let solve () : unit =
+    searchResult
+    |> Array.map fst
+    |> Array.map Set.count
+    |> Array.sum
+    |> printfn "%A"
 
-searchResult |> Array.map snd |> Array.sum |> printfn "%A"
+    searchResult |> Array.map snd |> Array.sum |> printfn "%A"

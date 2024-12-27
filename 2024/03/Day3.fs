@@ -1,3 +1,5 @@
+module AdventOfCode.Solutions.Y2024.D03
+
 open System.IO
 open System.Text.RegularExpressions
 
@@ -36,5 +38,6 @@ let partB =
         (0, true)
     |> fst
 
-partA |> printfn "%A"
-partB |> printfn "%A"
+let solve () : unit =
+    partA |> printfn "%A"
+    partB |> printfn "%A"

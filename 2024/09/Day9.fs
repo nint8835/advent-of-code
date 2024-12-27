@@ -1,7 +1,7 @@
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2024.D09
 
 open System.IO
-open Utils
+open AdventOfCode.Solutions.Utils
 
 let inputText = File.ReadAllText "input.txt" |> Seq.map string
 
@@ -88,5 +88,6 @@ let partB =
     |> Array.map (fun (i, v) -> i * v)
     |> Array.sum
 
-partA |> printfn "%d"
-partB |> printfn "%d"
+let solve () : unit =
+    partA |> printfn "%d"
+    partB |> printfn "%d"

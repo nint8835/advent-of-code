@@ -8,6 +8,28 @@
   <ItemGroup>
     <Compile Include="utils\Utils.fs" />
     <Compile Include="2024\01\Day1.fs" />
+    <Compile Include="2024\02\Day2.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="2024\03\Day3.fs" />
+    <Compile Include="2024\04\Day4.fs" />
+    <Compile Include="2024\05\Day5.fs" />
+    <Compile Include="2024\06\Day6.fs" />
+    <Compile Include="2024\07\Day7.fs" />
+    <Compile Include="2024\08\Day8.fs" />
+    <Compile Include="2024\09\Day9.fs" />
+    <Compile Include="2024\10\Day10.fs" />
+    <Compile Include="2024\11\Day11.fs" />
+    <Compile Include="2024\12\Day12.fs" />
+    <Compile Include="2024\13\Day13.fs" />
+    <Compile Include="2024\14\Day14.fs" />
+    <Compile Include="2024\15\Day15.fs" />
+    <Compile Include="2024\17\Day17.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SkiaSharp" Version="3.116.1" />
   </ItemGroup>
 
 </Project>

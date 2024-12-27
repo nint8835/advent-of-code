@@ -1,7 +1,7 @@
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2024.D11
 
 open System.IO
-open Utils
+open AdventOfCode.Solutions.Utils
 
 let inputData =
     File.ReadAllText "input.txt"
@@ -35,5 +35,6 @@ let performBlinks (count: int) : uint64 =
         inputData
     |> Array.sumBy snd
 
-performBlinks 25 |> printfn "%d"
-performBlinks 75 |> printfn "%d"
+let solve () : unit =
+    performBlinks 25 |> printfn "%d"
+    performBlinks 75 |> printfn "%d"

@@ -11,4 +11,4 @@ My solutions to [Advent of Code](https://adventofcode.com/).
 | [2021](https://adventofcode.com/2021) | 19 | F# (Script) | [Solutions](./2021) |
 | [2022](https://adventofcode.com/2022) | 16 | F# (Script), Python | [Solutions](./2022) |
 | [2023](https://adventofcode.com/2023) | 17 | F# (Script) | [Solutions](./2023) |
-| [2024](https://adventofcode.com/2024) | 30 | F# (Script) | [Solutions](./2024) |
+| [2024](https://adventofcode.com/2024) | 30 | F# | [Solutions](./2024) |

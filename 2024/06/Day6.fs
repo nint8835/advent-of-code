@@ -1,7 +1,7 @@
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2024.D06
 
 open System.IO
-open Utils
+open AdventOfCode.Solutions.Utils
 
 let inputData =
     File.ReadAllLines "input.txt"
@@ -77,16 +77,17 @@ let visited =
     |> _.SeenPositions
     |> Set.map fst
 
-visited |> Set.count |> printfn "%A"
+let solve () : unit =
+    visited |> Set.count |> printfn "%A"
 
-visited
-|> Set.toArray
-|> Array.Parallel.map (fun position ->
-    performSearch
-        (Set.add position obstacles)
-        initialGuardPosition
-        Up
-        Set.empty)
-|> Array.filter _.IsLoop
-|> Array.length
-|> printfn "%A"
+    visited
+    |> Set.toArray
+    |> Array.Parallel.map (fun position ->
+        performSearch
+            (Set.add position obstacles)
+            initialGuardPosition
+            Up
+            Set.empty)
+    |> Array.filter _.IsLoop
+    |> Array.length
+    |> printfn "%A"

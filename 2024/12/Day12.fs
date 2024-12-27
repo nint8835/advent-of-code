@@ -1,7 +1,7 @@
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2024.D12
 
 open System.IO
-open Utils
+open AdventOfCode.Solutions.Utils
 
 let inputData =
     File.ReadAllLines "input.txt"
@@ -103,6 +103,11 @@ let plots =
         (Set.empty, [||])
     |> snd
 
-plots |> Array.sumBy (fun plot -> plot.Area * plot.Perimeter) |> printfn "%A"
+let solve () : unit =
+    plots
+    |> Array.sumBy (fun plot -> plot.Area * plot.Perimeter)
+    |> printfn "%A"
 
-plots |> Array.sumBy (fun plot -> plot.Area * countCorners plot) |> printfn "%A"
+    plots
+    |> Array.sumBy (fun plot -> plot.Area * countCorners plot)
+    |> printfn "%A"

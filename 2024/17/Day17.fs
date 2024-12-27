@@ -1,8 +1,8 @@
 // aoc-tools:stars 1
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2024.D17
 
 open System.IO
-open Utils
+open AdventOfCode.Solutions.Utils
 
 type ProgramState =
     { A: int
@@ -125,8 +125,9 @@ let program =
     |> Array.chunkBySize 2
     |> Array.map parseInstruction
 
-executeProgram initialState program
-|> _.Out
-|> Array.map string
-|> String.concat ","
-|> printfn "%s"
+let solve () : unit =
+    executeProgram initialState program
+    |> _.Out
+    |> Array.map string
+    |> String.concat ","
+    |> printfn "%s"

@@ -1,8 +1,8 @@
 // aoc-tools:stars 1
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2024.D15
 
 open System.IO
-open Utils
+open AdventOfCode.Solutions.Utils
 
 let gridLines, movementLines =
     File.ReadAllText "input.txt" |> String.split "\n\n" |> Array.toTuple2
@@ -68,10 +68,11 @@ let moveRobot
             |> Set.add (Tuple.add2 boxLineEnd offset),
             newLocation
 
-movements
-|> Array.fold moveRobot (boxLocations, robotLocation)
-|> fst
-|> Set.toArray
-|> Array.map (fun (x, y) -> 100 * y + x)
-|> Array.sum
-|> printfn "%A"
+let solve () : unit =
+    movements
+    |> Array.fold moveRobot (boxLocations, robotLocation)
+    |> fst
+    |> Set.toArray
+    |> Array.map (fun (x, y) -> 100 * y + x)
+    |> Array.sum
+    |> printfn "%A"

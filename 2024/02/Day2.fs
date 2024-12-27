@@ -1,7 +1,7 @@
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2024.D02
 
 open System.IO
-open Utils
+open AdventOfCode.Solutions.Utils
 
 let inputData =
     File.ReadAllLines "input.txt"
@@ -26,5 +26,6 @@ let partB =
         |> Array.map (fun i -> report |> Array.removeAt i)
         |> Array.exists reportIsSafe)
 
-partA |> _.Length |> printfn "%A"
-partB |> _.Length |> printfn "%A"
+let solve () : unit =
+    partA |> _.Length |> printfn "%A"
+    partB |> _.Length |> printfn "%A"

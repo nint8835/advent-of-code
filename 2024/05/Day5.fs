@@ -1,7 +1,7 @@
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2024.D05
 
 open System.IO
-open Utils
+open AdventOfCode.Solutions.Utils
 
 let ruleLines, updateLines =
     File.ReadAllText "input.txt" |> String.split "\n\n" |> Array.toTuple2
@@ -28,14 +28,15 @@ let originallySorted, originallyUnsorted =
              rules |> Map.tryFind (a, b) |> Option.defaultValue 0)))
     |> Array.partition (fun (original, sorted) -> original = sorted)
 
-originallySorted
-|> Array.map fst
-|> Array.map (fun update -> update[update.Length / 2])
-|> Array.sum
-|> printfn "%A"
+let solve () : unit =
+    originallySorted
+    |> Array.map fst
+    |> Array.map (fun update -> update[update.Length / 2])
+    |> Array.sum
+    |> printfn "%A"
 
-originallyUnsorted
-|> Array.map snd
-|> Array.map (fun update -> update[update.Length / 2])
-|> Array.sum
-|> printfn "%A"
+    originallyUnsorted
+    |> Array.map snd
+    |> Array.map (fun update -> update[update.Length / 2])
+    |> Array.sum
+    |> printfn "%A"

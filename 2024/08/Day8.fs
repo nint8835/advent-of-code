@@ -1,7 +1,7 @@
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2024.D08
 
 open System.IO
-open Utils
+open AdventOfCode.Solutions.Utils
 
 let inputData =
     File.ReadAllLines "input.txt"
@@ -35,5 +35,6 @@ let findAntipoles (stepStart: int) (stepEnd: int) : int =
         x >= 0 && x < inputWidth && y >= 0 && y < inputHeight)
     |> Set.count
 
-findAntipoles 2 2 |> printfn "%A"
-findAntipoles 1 inputHeight |> printfn "%A"
+let solve () : unit =
+    findAntipoles 2 2 |> printfn "%A"
+    findAntipoles 1 inputHeight |> printfn "%A"

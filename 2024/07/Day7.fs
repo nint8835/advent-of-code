@@ -1,7 +1,7 @@
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2024.D07
 
 open System.IO
-open Utils
+open AdventOfCode.Solutions.Utils
 
 let inputData =
     File.ReadAllLines "input.txt"
@@ -37,5 +37,6 @@ let partB =
     |> Array.map fst
     |> Array.sum
 
-partA |> printfn "%d"
-partB |> printfn "%d"
+let solve () : unit =
+    partA |> printfn "%d"
+    partB |> printfn "%d"

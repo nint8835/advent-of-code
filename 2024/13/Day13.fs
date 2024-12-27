@@ -1,8 +1,8 @@
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2024.D13
 
 open System.IO
-open Utils
 open System.Text.RegularExpressions
+open AdventOfCode.Solutions.Utils
 
 let coordinateRegex = Regex(@"[+=](\d+)")
 
@@ -54,5 +54,6 @@ let findTokens (prizeCoordinateMutator: float -> float) : float =
     |> Array.sumBy (fun ((aPresses, bPresses), _) ->
         (3.0 * aPresses + bPresses))
 
-findTokens id |> uint64 |> printfn "%d"
-findTokens (fun v -> v + 10000000000000.0) |> uint64 |> printfn "%d"
+let solve () : unit =
+    findTokens id |> uint64 |> printfn "%d"
+    findTokens (fun v -> v + 10000000000000.0) |> uint64 |> printfn "%d"
