@@ -19,13 +19,6 @@ var execOpts = map[Language]ExecOptions{
 	LanguageFSharpInteractive: {BaseCmd: []string{"dotnet", "fsi"}},
 }
 
-var executeCmd = map[Language][]string{
-	LanguagePython:            {"python"},
-	LanguageGo:                {"go", "run"},
-	LanguageFSharp:            {"echo"},
-	LanguageFSharpInteractive: {"dotnet", "fsi"},
-}
-
 func ExecuteFile(file string) ([]byte, error) {
 	language, err := IdentifyLanguage(file)
 	if err != nil {
@@ -42,7 +35,7 @@ func ExecuteFile(file string) ([]byte, error) {
 	newWd := path.Dir(file)
 
 	if opts.ExecInRoot {
-		newWd = path.Join(cwd, "..")
+		newWd = cwd
 	} else {
 		file = path.Base(file)
 	}

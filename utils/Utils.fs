@@ -1,3 +1,5 @@
+namespace AdventOfCode.Solutions.Utils
+
 open System
 
 [<RequireQualifiedAccess>]
