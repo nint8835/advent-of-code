@@ -9,9 +9,6 @@
     <Compile Include="utils\Utils.fs" />
     <Compile Include="2024\01\Day1.fs" />
     <Compile Include="2024\02\Day2.fs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Include="2024\03\Day3.fs" />
     <Compile Include="2024\04\Day4.fs" />
     <Compile Include="2024\05\Day5.fs" />
