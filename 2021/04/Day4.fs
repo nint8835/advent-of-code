@@ -73,7 +73,10 @@ let solve () =
         callBingo true bingoCalls -1 [||] bingoCards
 
     let unmarkedSum =
-        winningCard |> Seq.cast<int> |> Seq.filter (fun num -> num <> -1) |> Seq.sum
+        winningCard
+        |> Seq.cast<int>
+        |> Seq.filter (fun num -> num <> -1)
+        |> Seq.sum
 
     let lastUnmarkedSum =
         lastWinningCard

@@ -70,8 +70,11 @@ let getCalibrationValues
         int (first + last))
 
 let solve () =
-    let partA = inputData |> getCalibrationValues (fun _ str -> str) |> Array.sum
-    let partB = inputData |> getCalibrationValues replaceStringDigits |> Array.sum
+    let partA =
+        inputData |> getCalibrationValues (fun _ str -> str) |> Array.sum
+
+    let partB =
+        inputData |> getCalibrationValues replaceStringDigits |> Array.sum
 
     printfn $"{partA}"
     printfn $"{partB}"

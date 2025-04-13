@@ -65,7 +65,9 @@ let solve () =
         |> Map.keys
         |> Seq.filter (fun key -> key.EndsWith "A")
         |> Seq.toArray
-        |> Array.map (walkNetwork network (fun location -> location.EndsWith "Z") 0)
+        |> Array.map (
+            walkNetwork network (fun location -> location.EndsWith "Z") 0
+        )
         |> Array.map uint64
         |> Array.reduce lcm
 

@@ -1,4 +1,5 @@
 module AdventOfCode.Solutions.Y2022.D06
+
 open System.IO
 
 let inputData = File.ReadAllText "input.txt"

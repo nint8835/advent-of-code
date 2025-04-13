@@ -19,5 +19,12 @@ let partA (a: int[]) (b: int[]) : bool = a[0] <= b[0] && a[1] >= b[1]
 let partB (a: int[]) (b: int[]) : bool = a[0] <= b[0] && b[0] <= a[1]
 
 let solve () =
-    inputData |> Array.filter (tryBothOrders partA) |> Array.length |> printfn "%A"
-    inputData |> Array.filter (tryBothOrders partB) |> Array.length |> printfn "%A"
+    inputData
+    |> Array.filter (tryBothOrders partA)
+    |> Array.length
+    |> printfn "%A"
+
+    inputData
+    |> Array.filter (tryBothOrders partB)
+    |> Array.length
+    |> printfn "%A"

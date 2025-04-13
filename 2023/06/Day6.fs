@@ -27,7 +27,9 @@ let calculatePossibleWinningMethods (time, distance) =
 
 let solve () =
     let partA =
-        partAInput |> Array.map calculatePossibleWinningMethods |> Array.reduce (*)
+        partAInput
+        |> Array.map calculatePossibleWinningMethods
+        |> Array.reduce (*)
 
     let partB = partBInput |> calculatePossibleWinningMethods
 
