@@ -1,7 +1,7 @@
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2022.D05
 
 open System.IO
-open Utils
+open AdventOfCode.Solutions.Utils
 
 let inputData = File.ReadAllText "input.txt" |> String.split "\n\n"
 
@@ -61,5 +61,6 @@ let instructions =
           from_col = int instruction[3]
           to_col = int instruction[5] })
 
-getTopString true instructions grid |> printfn "%s"
-getTopString false instructions grid |> printfn "%s"
+let solve () =
+    getTopString true instructions grid |> printfn "%s"
+    getTopString false instructions grid |> printfn "%s"

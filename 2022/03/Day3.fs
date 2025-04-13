@@ -1,7 +1,7 @@
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2022.D03
 
 open System.IO
-open Utils
+open AdventOfCode.Solutions.Utils
 
 let inputData = File.ReadAllText "input.txt" |> String.split "\n"
 
@@ -32,5 +32,6 @@ let partAGroups (input: string[]) : string[][] =
 
 let partBGroups (input: string[]) : string[][] = input |> Array.chunkBySize 3
 
-inputData |> calculatePriority partAGroups |> printfn "%A"
-inputData |> calculatePriority partBGroups |> printfn "%A"
+let solve () =
+    inputData |> calculatePriority partAGroups |> printfn "%A"
+    inputData |> calculatePriority partBGroups |> printfn "%A"

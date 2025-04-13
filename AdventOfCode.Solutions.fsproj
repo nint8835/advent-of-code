@@ -7,6 +7,12 @@
 
   <ItemGroup>
     <Compile Include="utils\Utils.fs" />
+    <Compile Include="2022\01\Day1.fs" />
+    <Compile Include="2022\02\Day2.fs" />
+    <Compile Include="2022\03\Day3.fs" />
+    <Compile Include="2022\04\Day4.fs" />
+    <Compile Include="2022\05\Day5.fs" />
+    <Compile Include="2022\06\Day6.fs" />
     <Compile Include="2023\01\Day1.fs" />
     <Compile Include="2023\02\Day2.fs" />
     <Compile Include="2023\03\Day3.fs" />

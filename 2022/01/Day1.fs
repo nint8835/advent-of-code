@@ -1,7 +1,7 @@
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2022.D01
 
 open System.IO
-open Utils
+open AdventOfCode.Solutions.Utils
 
 let inputData =
     File.ReadAllText "input.txt"
@@ -15,5 +15,6 @@ let maxNElves (n: int) (elves: int[][]) : int =
     |> Array.take n
     |> Array.sum
 
-inputData |> maxNElves 1 |> printfn "Part A: %d"
-inputData |> maxNElves 3 |> printfn "Part B: %d"
+let solve () =
+    inputData |> maxNElves 1 |> printfn "Part A: %d"
+    inputData |> maxNElves 3 |> printfn "Part B: %d"

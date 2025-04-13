@@ -1,7 +1,7 @@
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2022.D04
 
 open System.IO
-open Utils
+open AdventOfCode.Solutions.Utils
 
 let inputData =
     File.ReadAllText "input.txt"
@@ -18,6 +18,6 @@ let partA (a: int[]) (b: int[]) : bool = a[0] <= b[0] && a[1] >= b[1]
 
 let partB (a: int[]) (b: int[]) : bool = a[0] <= b[0] && b[0] <= a[1]
 
-
-inputData |> Array.filter (tryBothOrders partA) |> Array.length |> printfn "%A"
-inputData |> Array.filter (tryBothOrders partB) |> Array.length |> printfn "%A"
+let solve () =
+    inputData |> Array.filter (tryBothOrders partA) |> Array.length |> printfn "%A"
+    inputData |> Array.filter (tryBothOrders partB) |> Array.length |> printfn "%A"

@@ -1,3 +1,4 @@
+module AdventOfCode.Solutions.Y2022.D06
 open System.IO
 
 let inputData = File.ReadAllText "input.txt"
@@ -9,5 +10,6 @@ let findMarker (size: int) (input: string) : int =
     |> Seq.findIndex ((=) size)
     |> (+) size
 
-inputData |> findMarker 4 |> printfn "%A"
-inputData |> findMarker 14 |> printfn "%A"
+let solve () =
+    inputData |> findMarker 4 |> printfn "%A"
+    inputData |> findMarker 14 |> printfn "%A"
