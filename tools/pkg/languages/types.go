@@ -7,13 +7,15 @@ import (
 type Language string
 
 const (
-	LanguageFSharp Language = "F#"
-	LanguageGo     Language = "Go"
-	LanguagePython Language = "Python"
+	LanguageFSharp            Language = "F#"
+	LanguageFSharpInteractive Language = "F# (Script)"
+	LanguageGo                Language = "Go"
+	LanguagePython            Language = "Python"
 )
 
 var extensionLanguages = map[string]Language{
-	".fsx": LanguageFSharp,
+	".fs":  LanguageFSharp,
+	".fsx": LanguageFSharpInteractive,
 	".go":  LanguageGo,
 	".py":  LanguagePython,
 }

@@ -6,12 +6,22 @@ import (
 	"io"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
 
 	"github.com/nint8835/advent-of-code/tools/pkg/languages"
 	"github.com/nint8835/advent-of-code/tools/pkg/solutions"
 	"github.com/nint8835/advent-of-code/tools/pkg/utils"
 )
+
+func preRun() error {
+	err := exec.Command("dotnet", "restore", "runner/AdventOfCode.Runner.fsproj").Run()
+	if err != nil {
+		return fmt.Errorf("error running dotnet restore: %w", err)
+	}
+
+	return nil
+}
 
 func Run(year, day string) error {
 	dayPath := filepath.Join(year, day)
@@ -87,6 +97,11 @@ func RunAll() ([]string, error) {
 	years, err := solutions.ListYears()
 	if err != nil {
 		return nil, fmt.Errorf("error listing years: %w", err)
+	}
+
+	err = preRun()
+	if err != nil {
+		return nil, fmt.Errorf("error running pre-run: %w", err)
 	}
 
 	var failedTests []string
