@@ -92,10 +92,7 @@ let solve () : unit =
             |> Set.iter (fun (x, y) ->
                 canvas.DrawPoint(
                     new SKPoint(float32 x, float32 y),
-                    new SKPaint(
-                        Color = SKColors.Black,
-                        StrokeWidth = 0.0f
-                    )
+                    new SKPaint(Color = SKColors.Black, StrokeWidth = 0.0f)
                 ))
 
             let image = surface.Snapshot()
@@ -105,4 +102,4 @@ let solve () : unit =
 
             Array.map tick robots)
         inputData
-        |> ignore
+    |> ignore
