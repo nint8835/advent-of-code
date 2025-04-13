@@ -1,3 +1,5 @@
+module AdventOfCode.Solutions.Y2023.D08
+
 open System.Text.RegularExpressions
 
 // lcm implementation taken from https://gist.github.com/krishnabhargav/da6686e295638d000aab
@@ -55,16 +57,17 @@ let rec walkNetwork
 
         walkNetwork network successChecker (currentStep + 1) nextLocation
 
-let partA = walkNetwork network ((=) "ZZZ") 0 "AAA"
+let solve () =
+    let partA = walkNetwork network ((=) "ZZZ") 0 "AAA"
 
-let partB =
-    network
-    |> Map.keys
-    |> Seq.filter (fun key -> key.EndsWith "A")
-    |> Seq.toArray
-    |> Array.map (walkNetwork network (fun location -> location.EndsWith "Z") 0)
-    |> Array.map uint64
-    |> Array.reduce lcm
+    let partB =
+        network
+        |> Map.keys
+        |> Seq.filter (fun key -> key.EndsWith "A")
+        |> Seq.toArray
+        |> Array.map (walkNetwork network (fun location -> location.EndsWith "Z") 0)
+        |> Array.map uint64
+        |> Array.reduce lcm
 
-printfn "%A" partA
-printfn "%A" partB
+    printfn "%A" partA
+    printfn "%A" partB

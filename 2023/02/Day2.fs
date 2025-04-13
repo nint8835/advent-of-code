@@ -1,3 +1,5 @@
+module AdventOfCode.Solutions.Y2023.D02
+
 open System.Text.RegularExpressions
 open System
 
@@ -47,20 +49,21 @@ let inputData =
 
         game, maxCounts)
 
-let partA =
-    inputData
-    |> Array.filter (fun (_, maxCounts) ->
-        maxCounts["red"] <= 12
-        && maxCounts["green"] <= 13
-        && maxCounts["blue"] <= 14)
-    |> Array.map fst
-    |> Array.sum
+let solve () =
+    let partA =
+        inputData
+        |> Array.filter (fun (_, maxCounts) ->
+            maxCounts["red"] <= 12
+            && maxCounts["green"] <= 13
+            && maxCounts["blue"] <= 14)
+        |> Array.map fst
+        |> Array.sum
 
-let partB =
-    inputData
-    |> Array.map (fun (_, maxCounts) ->
-        maxCounts |> Map.values |> Seq.fold (*) 1)
-    |> Array.sum
+    let partB =
+        inputData
+        |> Array.map (fun (_, maxCounts) ->
+            maxCounts |> Map.values |> Seq.fold (*) 1)
+        |> Array.sum
 
-printfn "%A" partA
-printfn "%A" partB
+    printfn "%A" partA
+    printfn "%A" partB

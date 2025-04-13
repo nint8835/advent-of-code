@@ -1,3 +1,5 @@
+module AdventOfCode.Solutions.Y2023.D07
+
 let inputData =
     System.IO.File.ReadAllText("input.txt").Split "\n"
     |> Array.map (fun line ->
@@ -65,21 +67,22 @@ let rec getHandType (useJokers: bool) (cards: string) =
             | _ -> OnePair
         | _ -> HighCard
 
-let partA =
-    inputData
-    |> Array.map (fun (cards, bet) -> getHandType false cards, cards, bet)
-    |> Array.sortByDescending (fun (handType, cards, _) ->
-        calculateCardSortKey cardOrder (handType, cards))
-    |> Array.mapi (fun index (_, _, bet) -> (index + 1) * bet)
-    |> Array.reduce (+)
+let solve () =
+    let partA =
+        inputData
+        |> Array.map (fun (cards, bet) -> getHandType false cards, cards, bet)
+        |> Array.sortByDescending (fun (handType, cards, _) ->
+            calculateCardSortKey cardOrder (handType, cards))
+        |> Array.mapi (fun index (_, _, bet) -> (index + 1) * bet)
+        |> Array.reduce (+)
 
-let partB =
-    inputData
-    |> Array.map (fun (cards, bet) -> getHandType true cards, cards, bet)
-    |> Array.sortByDescending (fun (handType, cards, _) ->
-        calculateCardSortKey partBCardOrder (handType, cards))
-    |> Array.mapi (fun index (_, _, bet) -> (index + 1) * bet)
-    |> Array.reduce (+)
+    let partB =
+        inputData
+        |> Array.map (fun (cards, bet) -> getHandType true cards, cards, bet)
+        |> Array.sortByDescending (fun (handType, cards, _) ->
+            calculateCardSortKey partBCardOrder (handType, cards))
+        |> Array.mapi (fun index (_, _, bet) -> (index + 1) * bet)
+        |> Array.reduce (+)
 
-printfn "%A" partA
-printfn "%A" partB
+    printfn "%A" partA
+    printfn "%A" partB

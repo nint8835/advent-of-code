@@ -1,3 +1,5 @@
+module AdventOfCode.Solutions.Y2023.D03
+
 open System
 open System.Text.RegularExpressions
 
@@ -78,11 +80,11 @@ let gears =
         |> Seq.toArray)
     |> Array.concat
 
+let solve () =
+    let partA = partNumbers |> Array.map _.PartNumber |> Array.sum
 
-let partA = partNumbers |> Array.map _.PartNumber |> Array.sum
+    let partB =
+        gears |> Array.filter Option.isSome |> Array.map Option.get |> Array.sum
 
-let partB =
-    gears |> Array.filter Option.isSome |> Array.map Option.get |> Array.sum
-
-printfn "%A" partA
-printfn "%A" partB
+    printfn "%A" partA
+    printfn "%A" partB

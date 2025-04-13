@@ -1,3 +1,5 @@
+module AdventOfCode.Solutions.Y2023.D01
+
 let inputData = System.IO.File.ReadAllText("input.txt").Split "\n"
 
 let textDigits =
@@ -67,10 +69,9 @@ let getCalibrationValues
 
         int (first + last))
 
+let solve () =
+    let partA = inputData |> getCalibrationValues (fun _ str -> str) |> Array.sum
+    let partB = inputData |> getCalibrationValues replaceStringDigits |> Array.sum
 
-let partA = inputData |> getCalibrationValues (fun _ str -> str) |> Array.sum
-
-let partB = inputData |> getCalibrationValues replaceStringDigits |> Array.sum
-
-printfn $"{partA}"
-printfn $"{partB}"
+    printfn $"{partA}"
+    printfn $"{partB}"

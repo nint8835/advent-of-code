@@ -1,3 +1,5 @@
+module AdventOfCode.Solutions.Y2023.D09
+
 let inputData =
     System.IO.File.ReadAllText("input.txt").Split "\n"
     |> Array.map (fun line -> line.Split " " |> Array.map int)
@@ -24,8 +26,9 @@ let rec extrapolateValue
         | Beginning -> (values |> Array.head) - extrapolatedNextLineValue
         | End -> (values |> Array.last) + extrapolatedNextLineValue
 
-let partA = inputData |> Array.map (extrapolateValue End) |> Array.sum
-let partB = inputData |> Array.map (extrapolateValue Beginning) |> Array.sum
+let solve () =
+    let partA = inputData |> Array.map (extrapolateValue End) |> Array.sum
+    let partB = inputData |> Array.map (extrapolateValue Beginning) |> Array.sum
 
-printfn "%A" partA
-printfn "%A" partB
+    printfn "%A" partA
+    printfn "%A" partB

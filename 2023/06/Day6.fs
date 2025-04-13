@@ -1,3 +1,5 @@
+module AdventOfCode.Solutions.Y2023.D06
+
 open System
 
 let partAInput =
@@ -23,10 +25,11 @@ let calculatePossibleWinningMethods (time, distance) =
     |> Array.filter (fun methodDistance -> methodDistance > distance)
     |> Array.length
 
-let partA =
-    partAInput |> Array.map calculatePossibleWinningMethods |> Array.reduce (*)
+let solve () =
+    let partA =
+        partAInput |> Array.map calculatePossibleWinningMethods |> Array.reduce (*)
 
-let partB = partBInput |> calculatePossibleWinningMethods
+    let partB = partBInput |> calculatePossibleWinningMethods
 
-printfn "%A" partA
-printfn "%A" partB
+    printfn "%A" partA
+    printfn "%A" partB

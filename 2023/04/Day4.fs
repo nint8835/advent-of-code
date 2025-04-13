@@ -1,3 +1,5 @@
+module AdventOfCode.Solutions.Y2023.D04
+
 type Card =
     { CardNumber: int
       Count: int
@@ -61,5 +63,6 @@ let rec processPartB (currentIndex: int) (cards: Card array) : Card array =
 
         processPartB (currentIndex + 1) updatedCards
 
-printfn "%A" partA
-printfn "%A" (processPartB 0 inputData |> Array.map _.Count |> Array.sum)
+let solve () =
+    printfn "%A" partA
+    printfn "%A" (processPartB 0 inputData |> Array.map _.Count |> Array.sum)
