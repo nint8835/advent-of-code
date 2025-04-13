@@ -15,7 +15,11 @@ import (
 )
 
 func preRun() error {
-	err := exec.Command("dotnet", "restore", "runner/AdventOfCode.Runner.fsproj").Run()
+	cmd := exec.Command("dotnet", "restore", "runner/AdventOfCode.Runner.fsproj")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	err := cmd.Run()
 	if err != nil {
 		return fmt.Errorf("error running dotnet restore: %w", err)
 	}
