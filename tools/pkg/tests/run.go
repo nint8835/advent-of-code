@@ -69,6 +69,7 @@ func Run(year, day string) error {
 	}
 
 	if string(output) != string(expectedOutput) {
+		log.Default().Printf("Got:\n%s\nExpected:\n%s\n", string(output), string(expectedOutput))
 		return ErrFailedTest
 	}
 
