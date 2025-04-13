@@ -68,41 +68,41 @@ let solve () : unit =
     // Images cannot be unit tested, and SkiaSharp does not work automatically in GitHub Actions
     CI.exitIfCI ()
 
-    Directory.CreateDirectory "images"
+    Directory.CreateDirectory "images" |> ignore
 
-    do
-        [| 0..10000 |]
-        |> Array.fold
-            (fun robots i ->
-                let surface =
-                    SKSurface.Create(
-                        new SKImageInfo(
-                            areaWidth,
-                            areaHeight,
-                            SKColorType.Rgba8888,
-                            SKAlphaType.Premul
-                        )
+    [| 0..10000 |]
+    |> Array.fold
+        (fun robots i ->
+            let surface =
+                SKSurface.Create(
+                    new SKImageInfo(
+                        areaWidth,
+                        areaHeight,
+                        SKColorType.Rgba8888,
+                        SKAlphaType.Premul
                     )
+                )
 
-                let canvas = surface.Canvas
-                canvas.DrawColor(SKColors.White)
+            let canvas = surface.Canvas
+            canvas.DrawColor(SKColors.White)
 
-                robots
-                |> Array.map _.Position
-                |> Set.ofArray
-                |> Set.iter (fun (x, y) ->
-                    canvas.DrawPoint(
-                        new SKPoint(float32 x, float32 y),
-                        new SKPaint(
-                            Color = SKColors.Black,
-                            StrokeWidth = 0.0f
-                        )
-                    ))
+            robots
+            |> Array.map _.Position
+            |> Set.ofArray
+            |> Set.iter (fun (x, y) ->
+                canvas.DrawPoint(
+                    new SKPoint(float32 x, float32 y),
+                    new SKPaint(
+                        Color = SKColors.Black,
+                        StrokeWidth = 0.0f
+                    )
+                ))
 
-                let image = surface.Snapshot()
-                let data = image.Encode(SKEncodedImageFormat.Png, 100)
-                let path = Path.Combine("images", $"{i}.png")
-                File.WriteAllBytes(path, data.ToArray())
+            let image = surface.Snapshot()
+            let data = image.Encode(SKEncodedImageFormat.Png, 100)
+            let path = Path.Combine("images", $"{i}.png")
+            File.WriteAllBytes(path, data.ToArray())
 
-                Array.map tick robots)
-            inputData
+            Array.map tick robots)
+        inputData
+        |> ignore

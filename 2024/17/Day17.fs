@@ -4,6 +4,9 @@ module AdventOfCode.Solutions.Y2024.D17
 open System.IO
 open AdventOfCode.Solutions.Utils
 
+// TODO: Address warning
+#nowarn "FS0025"
+
 type ProgramState =
     { A: int
       B: int

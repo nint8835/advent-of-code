@@ -4,6 +4,9 @@ open System.IO
 open System.Text.RegularExpressions
 open AdventOfCode.Solutions.Utils
 
+// TODO: Address warning
+#nowarn "FS0025"
+
 let coordinateRegex = Regex(@"[+=](\d+)")
 
 type Machine =
