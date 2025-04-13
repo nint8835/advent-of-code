@@ -1,3 +1,5 @@
+module AdventOfCode.Solutions.Y2021.D03
+
 let inputData =
     (System.IO.File.ReadAllText "input.txt").Split "\n" |> Array.map Seq.toArray
 
@@ -43,6 +45,6 @@ let partB (input: char[][]) =
 
     System.Convert.ToInt32(oxygen, 2) * System.Convert.ToInt32(co2, 2)
 
-
-printfn $"Part A: %d{inputData |> partA}"
-printfn $"Part B: %d{inputData |> partB}"
+let solve () =
+    printfn $"Part A: %d{inputData |> partA}"
+    printfn $"Part B: %d{inputData |> partB}"

@@ -1,7 +1,7 @@
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2021.D02
 
 open System.IO
-open Utils
+open AdventOfCode.Solutions.Utils
 
 type Position = { x: int; y: int; aim: int }
 type Movement = { forward: int; up: int; down: int }
@@ -37,10 +37,11 @@ let getFinalPosition useAim (inputData: (string * int)[]) : Position =
           y = 0
           aim = if not useAim then 1 else 0 }
 
-let partA = inputData |> getFinalPosition false
-let partB = inputData |> getFinalPosition true
-let partAProduct = partA.x * partA.y
-let partBProduct = partB.x * partB.y
+let solve () =
+    let partA = inputData |> getFinalPosition false
+    let partB = inputData |> getFinalPosition true
+    let partAProduct = partA.x * partA.y
+    let partBProduct = partB.x * partB.y
 
-printfn $"Part A: %d{partAProduct}"
-printfn $"Part B: %d{partBProduct}"
+    printfn $"Part A: %d{partAProduct}"
+    printfn $"Part B: %d{partBProduct}"

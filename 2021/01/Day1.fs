@@ -1,7 +1,7 @@
-#load "../../utils/Utils.fsx"
+module AdventOfCode.Solutions.Y2021.D01
 
 open System.IO
-open Utils
+open AdventOfCode.Solutions.Utils
 
 let inputData =
     File.ReadAllText "input.txt" |> String.split "\n" |> Array.map int
@@ -14,5 +14,6 @@ let getIncreasingWindows windowSize (array: int[]) =
     |> Array.filter (fun window -> window.[1] > window.[0])
     |> Array.length
 
-inputData |> getIncreasingWindows 1 |> printfn "Part A: %d"
-inputData |> getIncreasingWindows 3 |> printfn "Part B: %d"
+let solve () =
+    inputData |> getIncreasingWindows 1 |> printfn "Part A: %d"
+    inputData |> getIncreasingWindows 3 |> printfn "Part B: %d"

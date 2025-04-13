@@ -1,3 +1,5 @@
+module AdventOfCode.Solutions.Y2021.D07
+
 open System
 
 let inputData =
@@ -49,9 +51,10 @@ let calculateCheapestPosition
     |> Array.map (calculateTotalCost costMode startingPositions)
     |> Array.minBy (fun position -> position.cost)
 
-let partA = inputData |> calculateCheapestPosition CostMode.Linear
+let solve () =
+    let partA = inputData |> calculateCheapestPosition CostMode.Linear
 
-let partB = inputData |> calculateCheapestPosition CostMode.Parabolic
+    let partB = inputData |> calculateCheapestPosition CostMode.Parabolic
 
-printfn $"%A{partA}"
-printfn $"%A{partB}"
+    printfn $"%A{partA}"
+    printfn $"%A{partB}"

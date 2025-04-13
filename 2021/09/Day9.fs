@@ -1,4 +1,5 @@
 // aoc-tools:stars 1
+module AdventOfCode.Solutions.Y2021.D09
 
 let inputData =
     (System.IO.File.ReadAllText "input.txt").Split "\n"
@@ -33,6 +34,7 @@ let calculateLowPointsSum (grid: int[,]) : int =
 
     lowPointsSum
 
-let partA = inputData |> calculateLowPointsSum
+let solve () =
+    let partA = inputData |> calculateLowPointsSum
 
-printfn $"%d{partA}"
+    printfn $"%d{partA}"

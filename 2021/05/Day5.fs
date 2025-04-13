@@ -1,3 +1,5 @@
+module AdventOfCode.Solutions.Y2021.D05
+
 open System
 
 let inputData = (System.IO.File.ReadAllText "input.txt").Split "\n"
@@ -58,24 +60,25 @@ let rec calculateHits
 
         calculateHits allowDiags hits tail
 
-let hitsA = Array2D.init (maxX + 1) (maxY + 1) (fun _ _ -> 0)
+let solve () =
+    let hitsA = Array2D.init (maxX + 1) (maxY + 1) (fun _ _ -> 0)
 
-let calculatedHitsA = calculateHits false hitsA (Array.toList lineEnds)
+    let calculatedHitsA = calculateHits false hitsA (Array.toList lineEnds)
 
-let aOverlapping =
-    calculatedHitsA
-    |> Seq.cast<int>
-    |> Seq.filter (fun i -> i > 1)
-    |> Seq.length
+    let aOverlapping =
+        calculatedHitsA
+        |> Seq.cast<int>
+        |> Seq.filter (fun i -> i > 1)
+        |> Seq.length
 
-let hitsB = Array2D.init (maxX + 1) (maxY + 1) (fun _ _ -> 0)
+    let hitsB = Array2D.init (maxX + 1) (maxY + 1) (fun _ _ -> 0)
 
-let calculatedHitsB = calculateHits true hitsB (Array.toList lineEnds)
+    let calculatedHitsB = calculateHits true hitsB (Array.toList lineEnds)
 
-let bOverlapping =
-    calculatedHitsB
-    |> Seq.cast<int>
-    |> Seq.filter (fun i -> i > 1)
-    |> Seq.length
+    let bOverlapping =
+        calculatedHitsB
+        |> Seq.cast<int>
+        |> Seq.filter (fun i -> i > 1)
+        |> Seq.length
 
-printfn $"%A{aOverlapping} %A{bOverlapping}"
+    printfn $"%A{aOverlapping} %A{bOverlapping}"

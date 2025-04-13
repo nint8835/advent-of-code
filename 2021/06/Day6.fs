@@ -1,3 +1,5 @@
+module AdventOfCode.Solutions.Y2021.D06
+
 let inputData =
     (System.IO.File.ReadAllText "input.txt").Split "," |> Array.map int
 
@@ -32,8 +34,9 @@ let rec simulateLanternFish (days: int) (fish: int64[]) =
             fish
         |> simulateLanternFish (n - 1)
 
-let partAFish = fishCount |> simulateLanternFish 80 |> Array.sum
-let partBFish = fishCount |> simulateLanternFish 256 |> Array.sum
+let solve () =
+    let partAFish = fishCount |> simulateLanternFish 80 |> Array.sum
+    let partBFish = fishCount |> simulateLanternFish 256 |> Array.sum
 
-printfn $"Part A: %d{partAFish}"
-printfn $"Part B: %d{partBFish}"
+    printfn $"Part A: %d{partAFish}"
+    printfn $"Part B: %d{partBFish}"

@@ -1,3 +1,5 @@
+module AdventOfCode.Solutions.Y2021.D10
+
 type Bracket =
     | Round
     | Square
@@ -85,20 +87,21 @@ let inputData =
     (System.IO.File.ReadAllText "input.txt").Split "\n"
     |> Array.map tokenizeString
 
-let errorSum =
-    inputData
-    |> Array.map valueError
-    |> Array.filter Option.isSome
-    |> Array.map (fun opt -> opt.Value)
-    |> Array.sum
+let solve () =
+    let errorSum =
+        inputData
+        |> Array.map valueError
+        |> Array.filter Option.isSome
+        |> Array.map (fun opt -> opt.Value)
+        |> Array.sum
 
-let corrections =
-    inputData
-    |> Array.filter (fun line -> line |> valueError |> Option.isNone)
-    |> Array.map valueAutocomplete
-    |> Array.sort
+    let corrections =
+        inputData
+        |> Array.filter (fun line -> line |> valueError |> Option.isNone)
+        |> Array.map valueAutocomplete
+        |> Array.sort
 
-let middleCorrection = corrections.[corrections.Length / 2]
+    let middleCorrection = corrections.[corrections.Length / 2]
 
-printfn $"Part A: %d{errorSum}"
-printfn $"Part B: %d{middleCorrection}"
+    printfn $"Part A: %d{errorSum}"
+    printfn $"Part B: %d{middleCorrection}"

@@ -1,3 +1,5 @@
+module AdventOfCode.Solutions.Y2021.D08
+
 let inputData =
     (System.IO.File.ReadAllText "input.txt").Split "\n"
     |> Array.map (fun str ->
@@ -86,10 +88,11 @@ let calculateDigitValues (row: string[][]) : (int * int) =
 
     (definiteDigitOutputCount, outputNumber)
 
-let inputResults = inputData |> Array.map calculateDigitValues
+let solve () =
+    let inputResults = inputData |> Array.map calculateDigitValues
 
-let definiteDigits = inputResults |> Array.sumBy fst
-let outputSum = inputResults |> Array.sumBy snd
+    let definiteDigits = inputResults |> Array.sumBy fst
+    let outputSum = inputResults |> Array.sumBy snd
 
-printfn $"Part A: %d{definiteDigits}"
-printfn $"Part B: %d{outputSum}"
+    printfn $"Part A: %d{definiteDigits}"
+    printfn $"Part B: %d{outputSum}"

@@ -1,3 +1,5 @@
+module AdventOfCode.Solutions.Y2021.D04
+
 let inputData = (System.IO.File.ReadAllText "input.txt").Split "\n"
 
 let bingoCalls = inputData.[0].Split "," |> Array.map int |> Array.toList
@@ -64,19 +66,20 @@ let rec callBingo
                      |> Array2D.map (fun num -> if num = head then -1 else num)))
         | [] -> failwith "No winner found"
 
-let winningCard, lastNumber = callBingo false bingoCalls -1 [||] bingoCards
+let solve () =
+    let winningCard, lastNumber = callBingo false bingoCalls -1 [||] bingoCards
 
-let lastWinningCard, lastWinningNumber =
-    callBingo true bingoCalls -1 [||] bingoCards
+    let lastWinningCard, lastWinningNumber =
+        callBingo true bingoCalls -1 [||] bingoCards
 
-let unmarkedSum =
-    winningCard |> Seq.cast<int> |> Seq.filter (fun num -> num <> -1) |> Seq.sum
+    let unmarkedSum =
+        winningCard |> Seq.cast<int> |> Seq.filter (fun num -> num <> -1) |> Seq.sum
 
-let lastUnmarkedSum =
-    lastWinningCard
-    |> Seq.cast<int>
-    |> Seq.filter (fun num -> num <> -1)
-    |> Seq.sum
+    let lastUnmarkedSum =
+        lastWinningCard
+        |> Seq.cast<int>
+        |> Seq.filter (fun num -> num <> -1)
+        |> Seq.sum
 
-printfn $"Part A: %d{unmarkedSum * lastNumber}"
-printfn $"Part B: %d{lastUnmarkedSum * lastWinningNumber}"
+    printfn $"Part A: %d{unmarkedSum * lastNumber}"
+    printfn $"Part B: %d{lastUnmarkedSum * lastWinningNumber}"
