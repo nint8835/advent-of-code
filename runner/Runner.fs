@@ -32,7 +32,12 @@ let main args =
     let solutionAssembly = Assembly.Load "AdventOfCode.Solutions"
 
     let solutionType =
-        $"AdventOfCode.Solutions.Y%s{year}.D%s{day}" |> solutionAssembly.GetType
+        $"AdventOfCode.Solutions.Y%s{year}.D%s{day}"
+        |> solutionAssembly.GetType
+        |> NullToOption
+        |> function
+            | Some solutionType -> solutionType
+            | None -> failwith "Solution type not found"
 
     let solveMethod =
         solutionType.GetMethod "solve"
