@@ -22,5 +22,5 @@ let partB =
     |> Array.sum
 
 let solve () =
-    partA |> printfn "Part A: %d"
-    partB |> printfn "Part B: %d"
+    partA |> printfn "%d"
+    partB |> printfn "%d"
