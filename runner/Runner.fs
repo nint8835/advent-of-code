@@ -34,17 +34,17 @@ let GetSolutionMethod
     : Result<SolutionDay * MethodInfo, string> =
     let solutionAssembly = Assembly.Load "AdventOfCode.Solutions"
 
-    let solutionNs =
+    let solutionModule =
         $"AdventOfCode.Solutions.Y%s{solutionDay.Year}.D%s{solutionDay.Day}"
 
-    solutionNs
+    solutionModule
     |> solutionAssembly.GetType
     |> NullToOption
     |> function
         | Some solutionType -> Ok(solutionDay, solutionType)
         | None ->
             Error
-                $"namespace {solutionNs} not found in assembly AdventOfCode.Solutions"
+                $"module {solutionModule} not found in assembly AdventOfCode.Solutions"
     |> Result.bind (fun (solutionDay, solutionType) ->
         solutionType.GetMethod "solve"
         |> NullToOption
