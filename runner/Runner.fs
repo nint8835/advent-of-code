@@ -6,48 +6,76 @@ let NullToOption (v: 'T | null) : Option<'T> =
     | null -> None
     | nonNullVal -> Some nonNullVal
 
-[<EntryPoint>]
-let main args =
-    // TODO: Better error handling
-    let targetFile = args |> Array.head
+type SolutionDay =
+    { Day: string
+      Year: string
+      Path: DirectoryInfo }
 
-    let dayFolder =
-        targetFile
-        |> Directory.GetParent
-        |> NullToOption
-        |> function
-            | Some dayFolder -> dayFolder
-            | None -> failwith "Day folder not found"
-
-    let yearFolder =
+let GetDay (targetFile: string) : Result<SolutionDay, string> =
+    targetFile
+    |> Directory.GetParent
+    |> NullToOption
+    |> function
+        | Some dayFolder -> Ok dayFolder
+        | None -> Error $"file {targetFile} not found"
+    |> Result.bind (fun dayFolder ->
         dayFolder.Parent
         |> NullToOption
         |> function
-            | Some yearFolder -> yearFolder
-            | None -> failwith "Year folder not found"
+            | Some yearFolder ->
+                { Day = dayFolder.Name
+                  Year = yearFolder.Name
+                  Path = dayFolder }
+                |> Ok
+            | None -> Error "year folder not found")
 
-    let year = yearFolder.Name
-    let day = dayFolder.Name
-
+let GetSolutionMethod
+    (solutionDay: SolutionDay)
+    : Result<SolutionDay * MethodInfo, string> =
     let solutionAssembly = Assembly.Load "AdventOfCode.Solutions"
 
-    let solutionType =
-        $"AdventOfCode.Solutions.Y%s{year}.D%s{day}"
-        |> solutionAssembly.GetType
-        |> NullToOption
-        |> function
-            | Some solutionType -> solutionType
-            | None -> failwith "Solution type not found"
+    let solutionNs =
+        $"AdventOfCode.Solutions.Y%s{solutionDay.Year}.D%s{solutionDay.Day}"
 
-    let solveMethod =
+    solutionNs
+    |> solutionAssembly.GetType
+    |> NullToOption
+    |> function
+        | Some solutionType -> Ok(solutionDay, solutionType)
+        | None ->
+            Error
+                $"namespace {solutionNs} not found in assembly AdventOfCode.Solutions"
+    |> Result.bind (fun (solutionDay, solutionType) ->
         solutionType.GetMethod "solve"
         |> NullToOption
         |> function
-            | Some solveMethod -> solveMethod
-            | None -> failwith "solve method not found"
+            | Some solveMethod -> Ok(solutionDay, solveMethod)
+            | None ->
+                Error
+                    $"solve method not found in solution type {solutionType.FullName}")
 
-    dayFolder.FullName |> Directory.SetCurrentDirectory
+let InvokeSolution
+    ((solutionDay, solveMethod): SolutionDay * MethodInfo)
+    : Result<unit, string> =
+    solutionDay.Path.FullName |> Directory.SetCurrentDirectory
 
     solveMethod.Invoke(null, [||]) |> ignore
 
-    0
+    Ok()
+
+let TryInvokeSolution (targetFile: string) : Result<unit, string> =
+    targetFile
+    |> GetDay
+    |> Result.bind GetSolutionMethod
+    |> Result.bind InvokeSolution
+
+[<EntryPoint>]
+let main args =
+    args
+    |> Array.head
+    |> TryInvokeSolution
+    |> function
+        | Ok _ -> 0
+        | Error err ->
+            printfn $"Error: %s{err}"
+            1
