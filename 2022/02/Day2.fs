@@ -3,10 +3,6 @@ module AdventOfCode.Solutions.Y2022.D02
 open System.IO
 open AdventOfCode.Solutions.Utils
 
-/// Euclidean remainder, the proper modulo operation
-/// Taken from https://stackoverflow.com/a/35848799
-let inline (%!) a b = (a % b + b) % b
-
 let getCharCode (char: string) : int = (("ABCXYZ".IndexOf char) %! 3) + 1
 
 

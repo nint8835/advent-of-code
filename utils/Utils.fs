@@ -2,6 +2,12 @@ namespace AdventOfCode.Solutions.Utils
 
 open System
 
+[<AutoOpen>]
+module Operators =
+    /// Euclidean remainder, the proper modulo operation
+    /// Taken from https://stackoverflow.com/a/35848799
+    let inline (%!) a b = (a % b + b) % b
+
 [<RequireQualifiedAccess>]
 module String =
     /// Pipelinable version of the .Split method on strings.

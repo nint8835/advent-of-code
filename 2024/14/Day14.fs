@@ -4,10 +4,6 @@ open System.IO
 open AdventOfCode.Solutions.Utils
 open SkiaSharp
 
-/// Euclidean remainder, the proper modulo operation
-/// Taken from https://stackoverflow.com/a/35848799
-let inline (%!) a b = (a % b + b) % b
-
 type Robot =
     { Position: int * int
       Velocity: int * int }
