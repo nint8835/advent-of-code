@@ -28,6 +28,14 @@ module Array =
 
         (arr[0], arr[1])
 
+    /// Converts an array containing three elements to a tuple.
+    let toTuple3 (arr: 'T[]) : 'T * 'T * 'T =
+        if arr.Length <> 3 then
+            failwith
+                "Array must have exactly three elements to convert to a tuple"
+
+        (arr[0], arr[1], arr[2])
+
     /// Generate a list of all permutations of a given size for the provided array, with repetition not allowed.
     let permutations (size: int) (items: 'T[]) : 'T[][] =
         let rec permute (size: int) (items: 'T[]) (acc: 'T[]) : 'T[][] =
