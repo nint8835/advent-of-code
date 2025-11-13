@@ -19,5 +19,3 @@ let solve () =
     |> Array.find (fun (a, b, c) -> a + b + c = 2020)
     |> fun (a, b, c) -> a * b * c
     |> printfn "%d"
-
-    1 %! 2
