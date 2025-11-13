@@ -5,7 +5,7 @@ My solutions to [Advent of Code](https://adventofcode.com/).
 | Year | Stars | Languages | Solutions |
 | ---- | ----- | --------- | --------- |
 | [2017](https://adventofcode.com/2017) | 10 | F#, Python | [Solutions](./2017) |
-| [2018](https://adventofcode.com/2018) | 4 | Python | [Solutions](./2018) |
+| [2018](https://adventofcode.com/2018) | 4 | F#, Python | [Solutions](./2018) |
 | [2019](https://adventofcode.com/2019) | 6 | Python | [Solutions](./2019) |
 | [2020](https://adventofcode.com/2020) | 25 | Go | [Solutions](./2020) |
 | [2021](https://adventofcode.com/2021) | 19 | F# | [Solutions](./2021) |
