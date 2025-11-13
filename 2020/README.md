@@ -3,7 +3,7 @@
 | Day | Stars | Language | Solution |
 | --- | ----- | -------- | -------- |
 | [01](https://adventofcode.com/2020/day/01) | 2 | F# | [Solution](./01) |
-| [02](https://adventofcode.com/2020/day/02) | 2 | Go | [Solution](./02) |
+| [02](https://adventofcode.com/2020/day/02) | 2 | F# | [Solution](./02) |
 | [03](https://adventofcode.com/2020/day/03) | 2 | Go | [Solution](./03) |
 | [04](https://adventofcode.com/2020/day/04) | 2 | Go | [Solution](./04) |
 | [05](https://adventofcode.com/2020/day/05) | 2 | Go | [Solution](./05) |
