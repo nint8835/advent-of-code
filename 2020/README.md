@@ -7,7 +7,7 @@
 | [03](https://adventofcode.com/2020/day/03) | 2 | F# | [Solution](./03) |
 | [04](https://adventofcode.com/2020/day/04) | 2 | F# | [Solution](./04) |
 | [05](https://adventofcode.com/2020/day/05) | 2 | F# | [Solution](./05) |
-| [06](https://adventofcode.com/2020/day/06) | 2 | Go | [Solution](./06) |
+| [06](https://adventofcode.com/2020/day/06) | 2 | F# | [Solution](./06) |
 | [07](https://adventofcode.com/2020/day/07) | 2 | Go | [Solution](./07) |
 | [08](https://adventofcode.com/2020/day/08) | 2 | Go | [Solution](./08) |
 | [09](https://adventofcode.com/2020/day/09) | 2 | Go | [Solution](./09) |
