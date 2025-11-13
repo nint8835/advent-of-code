@@ -10,6 +10,7 @@
         <Compile Include="2017\01\Day1.fs"/>
         <Compile Include="2017\02\Day2.fs"/>
         <Compile Include="2017\04\Day4.fs"/>
+        <Compile Include="2017\05\Day5.fs"/>
         <Compile Include="2021\01\Day1.fs"/>
         <Compile Include="2021\02\Day2.fs"/>
         <Compile Include="2021\03\Day3.fs"/>
