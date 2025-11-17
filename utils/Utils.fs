@@ -63,6 +63,9 @@ module Array =
 
         permute size items [||]
 
+    /// Add an element to the end of an array.
+    let add (element: 'T) (arr: 'T[]) : 'T[] = Array.append arr [| element |]
+
 [<RequireQualifiedAccess>]
 module Array2D =
     /// Extracts a range of values from a 2D array.
