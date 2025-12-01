@@ -11,7 +11,7 @@
         <Compile Include="2017\02\Day2.fs"/>
         <Compile Include="2017\04\Day4.fs"/>
         <Compile Include="2017\05\Day5.fs"/>
-        <Compile Include="2017\06\Day6.fs" />
+        <Compile Include="2017\06\Day6.fs"/>
         <Compile Include="2021\01\Day1.fs"/>
         <Compile Include="2021\02\Day2.fs"/>
         <Compile Include="2021\03\Day3.fs"/>
@@ -62,6 +62,8 @@
         <Compile Include="2020\04\Day4.fs"/>
         <Compile Include="2020\05\Day5.fs"/>
         <Compile Include="2020\06\Day6.fs"/>
+        <Compile Include="2025\01\Day1.fs"/>
+        <Content Include="2025\01\input.txt"/>
     </ItemGroup>
 
     <ItemGroup>
