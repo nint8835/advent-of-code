@@ -12,7 +12,7 @@ let rec findBankMaxValue
     (currentMaxValue: int64)
     (bank: int64[])
     : int64 =
-    let indexedBank = bank |> Array.mapi (fun i v -> (i, v))
+    let indexedBank = bank |> Array.indexed
 
     if batterySize = 0 then
         currentMaxValue
