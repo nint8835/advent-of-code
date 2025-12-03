@@ -4,18 +4,18 @@ open System.IO
 
 let inputData =
     File.ReadAllLines "input.txt"
-    |> Array.map (Seq.map (string >> int) >> Seq.toArray)
+    |> Array.map (Seq.map (string >> int64) >> Seq.toArray)
 
 [<TailCall>]
 let rec findBankMaxValue
     (batterySize: int)
-    (currentMaxValue: string)
-    (bank: int[])
+    (currentMaxValue: int64)
+    (bank: int64[])
     : int64 =
     let indexedBank = bank |> Array.mapi (fun i v -> (i, v))
 
     if batterySize = 0 then
-        int64 currentMaxValue
+        currentMaxValue
     else
         let (maxValuePosition, maxValue) =
             indexedBank
@@ -24,11 +24,11 @@ let rec findBankMaxValue
 
         findBankMaxValue
             (batterySize - 1)
-            (currentMaxValue + string maxValue)
+            (currentMaxValue * 10L + maxValue)
             (indexedBank
              |> Array.filter (fun (i, _) -> i > maxValuePosition)
              |> Array.map snd)
 
 let solve () =
-    inputData |> Array.sumBy (findBankMaxValue 2 "") |> printfn "%d"
-    inputData |> Array.sumBy (findBankMaxValue 12 "") |> printfn "%d"
+    inputData |> Array.sumBy (findBankMaxValue 2 0L) |> printfn "%d"
+    inputData |> Array.sumBy (findBankMaxValue 12 0L) |> printfn "%d"
