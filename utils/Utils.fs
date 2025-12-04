@@ -108,6 +108,61 @@ module Array2D =
         |> Array.filter (fun (_, _, value) -> predicate value)
         |> Array.map (fun (x, y, _) -> (x, y))
 
+    /// Returns the indices of surrounding elements of a given position in a 2D array.
+    let neighbourIndicesWithDiagonals
+        (x: int)
+        (y: int)
+        (arr: 'T[,])
+        : (int * int)[] =
+        [| for dy in -1 .. 1 do
+               for dx in -1 .. 1 do
+                   if dx <> 0 || dy <> 0 then
+                       let newX = x + dx
+                       let newY = y + dy
+
+                       if
+                           newX >= 0
+                           && newX < Array2D.length2 arr
+                           && newY >= 0
+                           && newY < Array2D.length1 arr
+                       then
+                           yield (newX, newY) |]
+
+    /// Returns the values of surrounding elements of a given position in a 2D array.
+    let neighbourValuesWithDiagonals (x: int) (y: int) (arr: 'T[,]) : 'T[] =
+        neighbourIndicesWithDiagonals x y arr
+        |> Array.map (fun (nx, ny) -> arr[ny, nx])
+
+    /// Returns the indices of direct neighbours of a given position in a 2D array.
+    let neighbourIndices (x: int) (y: int) (arr: 'T[,]) : (int * int)[] =
+        [| for dy in -1 .. 1 do
+               for dx in -1 .. 1 do
+                   if (dx = 0 || dy = 0) && (dx <> 0 || dy <> 0) then
+                       let newX = x + dx
+                       let newY = y + dy
+
+                       if
+                           newX >= 0
+                           && newX < Array2D.length2 arr
+                           && newY >= 0
+                           && newY < Array2D.length1 arr
+                       then
+                           yield (newX, newY) |]
+
+    /// Returns the values of direct neighbours of a given position in a 2D array.
+    let neighbourValues (x: int) (y: int) (arr: 'T[,]) : 'T[] =
+        neighbourIndices x y arr |> Array.map (fun (nx, ny) -> arr[ny, nx])
+
+    /// Turn a 2D array into an array of (x, y, value) tuples.
+    let indexed (arr: 'T[,]) : (int * int * 'T)[] =
+        arr |> Array2D.mapi (fun y x value -> (x, y, value)) |> flatten
+
+    /// Update a value in a 2D array at the specified coordinates, returning a new array.
+    let updateAt (x: int) (y: int) (value: 'T) (arr: 'T[,]) : 'T[,] =
+        let newArr = Array2D.copy arr
+        newArr[y, x] <- value
+        newArr
+
 
 [<RequireQualifiedAccess>]
 module Tuple =
