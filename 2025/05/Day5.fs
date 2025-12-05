@@ -34,6 +34,5 @@ let solve () =
                 (lastMin, Math.Max(lastMax, max)) :: tail
             | _ -> (min, max) :: acc)
         []
-    |> List.map (fun (min, max) -> max - min + 1L)
-    |> List.sum
+    |> List.sumBy (fun (min, max) -> max - min + 1L)
     |> printfn "%d"
