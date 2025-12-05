@@ -70,6 +70,8 @@
         <Content Include="2025\03\input.txt"/>
         <Compile Include="2025\04\Day4.fs"/>
         <Content Include="2025\04\input.txt"/>
+        <Compile Include="2025\05\Day5.fs"/>
+        <Content Include="2025\05\input.txt"/>
     </ItemGroup>
 
     <ItemGroup>
