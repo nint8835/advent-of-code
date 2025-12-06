@@ -18,7 +18,9 @@ let locateRemovablePaper (input: int[,]) : (int * int)[] =
     input
     |> Array2D.findIndices ((=) 1)
     |> Array.filter (fun (x, y) ->
-        (input |> Array2D.neighbourValuesWithDiagonals x y |> Array.sum) < 4)
+        (input
+         |> Array2D.neighbourValues OrthogonalAndDiagonal x y
+         |> Array.sum) < 4)
 
 [<TailCall>]
 let rec removeAllReachablePaper (totalRemoved: int) (input: int[,]) =

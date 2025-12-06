@@ -70,6 +70,15 @@ module Array =
     let indexed (arr: 'T[]) : (int * 'T)[] =
         arr |> Array.mapi (fun i v -> (i, v))
 
+/// Specifies the mode for retrieving neighbours in a 2D array.
+type NeighbourMode =
+    /// Neighbours in orthogonal directions only (up, down, left, right).
+    | Orthogonal
+    /// Neighbours in diagonal directions only.
+    | Diagonal
+    /// Neighbours in both orthogonal and diagonal directions.
+    | OrthogonalAndDiagonal
+
 [<RequireQualifiedAccess>]
 module Array2D =
     /// Extracts a range of values from a 2D array.
@@ -110,50 +119,40 @@ module Array2D =
         |> Array.filter (fun (_, _, value) -> predicate value)
         |> Array.map (fun (x, y, _) -> (x, y))
 
-    /// Returns the indices of surrounding elements of a given position in a 2D array.
-    let neighbourIndicesWithDiagonals
+    /// Get the neighbour indices of a given cell in a 2D array.
+    let neighbourIndices
+        (mode: NeighbourMode)
         (x: int)
         (y: int)
         (arr: 'T[,])
         : (int * int)[] =
-        [| for dy in -1 .. 1 do
-               for dx in -1 .. 1 do
-                   if dx <> 0 || dy <> 0 then
-                       let newX = x + dx
-                       let newY = y + dy
+        let offsets =
+            match mode with
+            | NeighbourMode.Orthogonal -> [| (0, -1); (-1, 0); (1, 0); (0, 1) |]
+            | NeighbourMode.Diagonal -> [| (-1, -1); (1, -1); (-1, 1); (1, 1) |]
+            | NeighbourMode.OrthogonalAndDiagonal ->
+                [| for dy in -1 .. 1 do
+                       for dx in -1 .. 1 do
+                           if dx <> 0 || dy <> 0 then
+                               yield (dx, dy) |]
 
-                       if
-                           newX >= 0
-                           && newX < Array2D.length2 arr
-                           && newY >= 0
-                           && newY < Array2D.length1 arr
-                       then
-                           yield (newX, newY) |]
 
-    /// Returns the values of surrounding elements of a given position in a 2D array.
-    let neighbourValuesWithDiagonals (x: int) (y: int) (arr: 'T[,]) : 'T[] =
-        neighbourIndicesWithDiagonals x y arr
-        |> Array.map (fun (nx, ny) -> arr[ny, nx])
+        offsets
+        |> Array.map (fun (dx, dy) -> (x + dx, y + dy))
+        |> Array.filter (fun (newX, newY) ->
+            newX >= 0
+            && newX < Array2D.length2 arr
+            && newY >= 0
+            && newY < Array2D.length1 arr)
 
-    /// Returns the indices of direct neighbours of a given position in a 2D array.
-    let neighbourIndices (x: int) (y: int) (arr: 'T[,]) : (int * int)[] =
-        [| for dy in -1 .. 1 do
-               for dx in -1 .. 1 do
-                   if (dx = 0 || dy = 0) && (dx <> 0 || dy <> 0) then
-                       let newX = x + dx
-                       let newY = y + dy
-
-                       if
-                           newX >= 0
-                           && newX < Array2D.length2 arr
-                           && newY >= 0
-                           && newY < Array2D.length1 arr
-                       then
-                           yield (newX, newY) |]
-
-    /// Returns the values of direct neighbours of a given position in a 2D array.
-    let neighbourValues (x: int) (y: int) (arr: 'T[,]) : 'T[] =
-        neighbourIndices x y arr |> Array.map (fun (nx, ny) -> arr[ny, nx])
+    /// Get the neighbour values of a given cell in a 2D array.
+    let neighbourValues
+        (mode: NeighbourMode)
+        (x: int)
+        (y: int)
+        (arr: 'T[,])
+        : 'T[] =
+        neighbourIndices mode x y arr |> Array.map (fun (nx, ny) -> arr[ny, nx])
 
     /// Update a value in a 2D array at the specified coordinates, returning a new array.
     let updateAt (x: int) (y: int) (value: 'T) (arr: 'T[,]) : 'T[,] =
