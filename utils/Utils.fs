@@ -73,19 +73,15 @@ module Array =
     /// Splits an array into sub-arrays whenever the predicate is true.
     /// The elements that satisfy the predicate are not included in the resulting sub-arrays.
     let splitBy (pred: 'T -> bool) (arr: 'T[]) : 'T[][] =
-        // TODO: See if there's a better, more functional way to do this
-        // Doing mutability to get this done in a reasonable time
-        let mutable result = [||]
-        let mutable current = [||]
-
-        for item in arr do
-            if pred item then
-                result <- result |> add current
-                current <- [||]
-            else
-                current <- current |> add item
-
-        result |> add current
+        arr
+        |> Array.fold
+            (fun (((current: 'T[]), result: 'T[][])) (item: 'T) ->
+                if pred item then
+                    ([||], result |> add current)
+                else
+                    (current |> add item, result))
+            ([||], [||])
+        ||> add
 
 /// Specifies the mode for retrieving neighbours in a 2D array.
 type NeighbourMode =
