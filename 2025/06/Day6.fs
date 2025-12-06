@@ -1,32 +1,37 @@
 module AdventOfCode.Solutions.Y2025.D06
 
+open System
 open System.IO
 open AdventOfCode.Solutions.Utils
 
-let inputData =
-    File.ReadAllLines "input.txt"
-    |> Array.map (String.split " " >> Array.filter (fun s -> s <> ""))
-
-let numberColumns =
-    inputData
-    |> Array.take ((inputData |> Array.length) - 1)
-    |> Array.map (Array.map int64)
-    |> Array.transpose
+let inputData = File.ReadAllLines "input.txt"
 
 let operators =
     inputData
+    |> Array.map (
+        String.split " " >> Array.filter (String.IsNullOrEmpty >> not)
+    )
     |> Array.last
     |> Array.map (function
         | "+" -> (+)
         | "*" -> (*)
         | _ -> failwith "Invalid operator")
 
-let partBNumberColumns =
-    File.ReadAllLines "input.txt"
+let partANumbers =
+    inputData
+    |> Array.map (
+        String.split " " >> Array.filter (String.IsNullOrEmpty >> not)
+    )
+    |> (fun arr -> arr[..^1])
+    |> Array.map (Array.map int64)
+    |> Array.transpose
+
+let partBNumbers =
+    inputData
     |> Array.map (Seq.toArray >> Array.map string)
     |> Array.transpose
     |> Array.map (fun arr ->
-        arr |> Array.take (arr.Length - 1) |> Array.filter (fun s -> s <> " "))
+        arr[..^1] |> Array.filter (String.IsNullOrWhiteSpace >> not))
     |> Array.splitBy (Array.isEmpty)
     |> Array.map (Array.map (String.concat "" >> int64))
 
@@ -36,5 +41,5 @@ let evaluateNumbers (numberArray: int64[][]) : int64 =
     |> Array.sumBy (fun (op, numbers) -> numbers |> Array.reduce op)
 
 let solve () =
-    evaluateNumbers numberColumns |> printfn "%d"
-    evaluateNumbers partBNumberColumns |> printfn "%d"
+    partANumbers |> evaluateNumbers |> printfn "%d"
+    partBNumbers |> evaluateNumbers |> printfn "%d"
