@@ -115,11 +115,7 @@ module Array2D =
         Array.zip xValues yValues |> Array.map (fun (x, y) -> arr[y, x])
 
     /// Flattens a 2D array into a 1D array.
-    let flatten (arr: 'T[,]) : 'T[] =
-        let y = Array2D.length1 arr
-        let x = Array2D.length2 arr
-
-        Array.init (x * y) (fun i -> arr.[i / y, i % y])
+    let flatten (arr: 'T[,]) : 'T[] = arr |> Seq.cast |> Seq.toArray
 
     /// Turn a 2D array into an array of (x, y, value) tuples.
     let indexed (arr: 'T[,]) : (int * int * 'T)[] =

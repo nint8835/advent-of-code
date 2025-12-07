@@ -69,6 +69,7 @@
         <Compile Include="2025\04\Day4.fs"/>
         <Compile Include="2025\05\Day5.fs"/>
         <Compile Include="2025\06\Day6.fs"/>
+        <Compile Include="2025\07\Day7.fs"/>
     </ItemGroup>
 
     <ItemGroup>
