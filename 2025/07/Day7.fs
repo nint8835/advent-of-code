@@ -26,32 +26,47 @@ let splitBeams
     : Set<int> * int * int64[] =
     let hitSplitters = Set.intersect currentBeamCols splitterCols
 
-    let newBeamCols =
+    let (newBeamCols, newBeamTimelines) =
         hitSplitters
         |> Set.fold
-            (fun acc col ->
-                let acc = Set.remove col acc
+            (fun (wipSet, wipTimelines) col ->
+                let wipSet = Set.remove col wipSet
                 let leftCol = col - 1
                 let rightCol = col + 1
 
-                let acc = if leftCol >= 0 then Set.add leftCol acc else acc
+                let wipSet =
+                    if leftCol >= 0 then Set.add leftCol wipSet else wipSet
 
-                let acc =
-                    if rightCol < gridWidth then Set.add rightCol acc else acc
+                let wipSet =
+                    if rightCol < gridWidth then
+                        Set.add rightCol wipSet
+                    else
+                        wipSet
 
-                // TODO: Don't use mutable array
-                timelineCounts[leftCol] <-
-                    timelineCounts[leftCol] + timelineCounts[col]
+                let wipTimelines =
+                    if leftCol >= 0 then
+                        wipTimelines
+                        |> Array.updateAt
+                            leftCol
+                            (wipTimelines[leftCol] + wipTimelines[col])
+                    else
+                        wipTimelines
 
-                timelineCounts[rightCol] <-
-                    timelineCounts[rightCol] + timelineCounts[col]
+                let wipTimelines =
+                    if rightCol < gridWidth then
+                        wipTimelines
+                        |> Array.updateAt
+                            rightCol
+                            (wipTimelines[rightCol] + wipTimelines[col])
+                    else
+                        wipTimelines
 
-                timelineCounts[col] <- 0
+                let wipTimelines = wipTimelines |> Array.updateAt col 0L
 
-                acc)
-            currentBeamCols
+                (wipSet, wipTimelines))
+            (currentBeamCols, timelineCounts)
 
-    (newBeamCols, splitCount + Set.count hitSplitters, timelineCounts)
+    (newBeamCols, splitCount + Set.count hitSplitters, newBeamTimelines)
 
 
 let solve () =
