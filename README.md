@@ -12,4 +12,4 @@ My solutions to [Advent of Code](https://adventofcode.com/).
 | [2022](https://adventofcode.com/2022) | 16 | F#, Python | [Solutions](./2022) |
 | [2023](https://adventofcode.com/2023) | 17 | F# | [Solutions](./2023) |
 | [2024](https://adventofcode.com/2024) | 30 | F# | [Solutions](./2024) |
-| [2025](https://adventofcode.com/2025) | 12 | F# | [Solutions](./2025) |
+| [2025](https://adventofcode.com/2025) | 14 | F# | [Solutions](./2025) |
