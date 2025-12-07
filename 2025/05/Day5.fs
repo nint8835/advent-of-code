@@ -4,7 +4,7 @@ open System
 open System.IO
 open AdventOfCode.Solutions.Utils
 
-let (rangeLines, ingredientLines) =
+let rangeLines, ingredientLines =
     File.ReadAllText "input.txt"
     |> String.split "\n\n"
     |> Array.map (String.split "\n")

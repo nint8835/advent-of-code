@@ -20,57 +20,54 @@ let splitterRows =
     |> Array.groupBy snd
     |> Array.map (snd >> Array.map fst >> Set.ofArray)
 
+let handleSplit
+    (beams: Set<int>, timelines: int64[])
+    (col: int)
+    : Set<int> * int64[] =
+    let beams = Set.remove col beams
+    let leftCol = col - 1
+    let rightCol = col + 1
+
+    let beams = if leftCol >= 0 then Set.add leftCol beams else beams
+
+    let beams =
+        if rightCol < gridWidth then
+            Set.add rightCol beams
+        else
+            beams
+
+    let timelines =
+        if leftCol >= 0 then
+            timelines
+            |> Array.updateAt leftCol (timelines[leftCol] + timelines[col])
+        else
+            timelines
+
+    let timelines =
+        if rightCol < gridWidth then
+            timelines
+            |> Array.updateAt rightCol (timelines[rightCol] + timelines[col])
+        else
+            timelines
+
+    let timelines = timelines |> Array.updateAt col 0L
+
+    beams, timelines
+
 let splitBeams
-    ((currentBeamCols: Set<int>), (splitCount: int), (timelineCounts: int64[]))
+    (currentBeamCols: Set<int>, splitCount: int, timelineCounts: int64[])
     (splitterCols: Set<int>)
     : Set<int> * int * int64[] =
     let hitSplitters = Set.intersect currentBeamCols splitterCols
 
-    let (newBeamCols, newBeamTimelines) =
-        hitSplitters
-        |> Set.fold
-            (fun (wipSet, wipTimelines) col ->
-                let wipSet = Set.remove col wipSet
-                let leftCol = col - 1
-                let rightCol = col + 1
-
-                let wipSet =
-                    if leftCol >= 0 then Set.add leftCol wipSet else wipSet
-
-                let wipSet =
-                    if rightCol < gridWidth then
-                        Set.add rightCol wipSet
-                    else
-                        wipSet
-
-                let wipTimelines =
-                    if leftCol >= 0 then
-                        wipTimelines
-                        |> Array.updateAt
-                            leftCol
-                            (wipTimelines[leftCol] + wipTimelines[col])
-                    else
-                        wipTimelines
-
-                let wipTimelines =
-                    if rightCol < gridWidth then
-                        wipTimelines
-                        |> Array.updateAt
-                            rightCol
-                            (wipTimelines[rightCol] + wipTimelines[col])
-                    else
-                        wipTimelines
-
-                let wipTimelines = wipTimelines |> Array.updateAt col 0L
-
-                (wipSet, wipTimelines))
-            (currentBeamCols, timelineCounts)
+    let newBeamCols, newBeamTimelines =
+        hitSplitters |> Set.fold handleSplit (currentBeamCols, timelineCounts)
 
     (newBeamCols, splitCount + Set.count hitSplitters, newBeamTimelines)
 
 
 let solve () =
-    let (_, splitCount, timelineCounts) =
+    let _, splitCount, timelineCounts =
         splitterRows
         |> Array.fold
             splitBeams
