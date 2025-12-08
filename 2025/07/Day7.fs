@@ -20,59 +20,38 @@ let splitterRows =
     |> Array.groupBy snd
     |> Array.map (snd >> Array.map fst >> Set.ofArray)
 
-let handleSplit
-    (beams: Set<int>, timelines: int64[])
-    (col: int)
-    : Set<int> * int64[] =
-    let beams = Set.remove col beams
-    let leftCol = col - 1
-    let rightCol = col + 1
+let timelinesToSet (timelines: int64[]) : Set<int> =
+    timelines
+    |> Array.indexed
+    |> Array.filter (snd >> ((<>) 0L))
+    |> Array.map fst
+    |> Set.ofArray
 
-    let beams = if leftCol >= 0 then Set.add leftCol beams else beams
-
-    let beams =
-        if rightCol < gridWidth then
-            Set.add rightCol beams
-        else
-            beams
-
-    let timelines =
-        if leftCol >= 0 then
+let handleSplit (timelines: int64[]) (col: int) : int64[] =
+    [| col - 1; col + 1 |]
+    |> Array.filter (fun c -> c >= 0 && c < gridWidth)
+    |> Array.fold
+        (fun timelines newCol ->
             timelines
-            |> Array.updateAt leftCol (timelines[leftCol] + timelines[col])
-        else
-            timelines
-
-    let timelines =
-        if rightCol < gridWidth then
-            timelines
-            |> Array.updateAt rightCol (timelines[rightCol] + timelines[col])
-        else
-            timelines
-
-    let timelines = timelines |> Array.updateAt col 0L
-
-    beams, timelines
+            |> Array.updateAt newCol (timelines[newCol] + timelines[col]))
+        timelines
+    |> Array.updateAt col 0L
 
 let splitBeams
-    (currentBeamCols: Set<int>, splitCount: int, timelineCounts: int64[])
+    (splitCount: int, timelines: int64[])
     (splitterCols: Set<int>)
-    : Set<int> * int * int64[] =
-    let hitSplitters = Set.intersect currentBeamCols splitterCols
+    : int * int64[] =
+    let hitSplitters = timelines |> timelinesToSet |> Set.intersect splitterCols
 
-    let newBeamCols, newBeamTimelines =
-        hitSplitters |> Set.fold handleSplit (currentBeamCols, timelineCounts)
-
-    (newBeamCols, splitCount + Set.count hitSplitters, newBeamTimelines)
-
+    (splitCount + Set.count hitSplitters,
+     hitSplitters |> Set.fold handleSplit timelines)
 
 let solve () =
-    let _, splitCount, timelineCounts =
+    let splitCount, timelineCounts =
         splitterRows
         |> Array.fold
             splitBeams
-            (startPosition,
-             0,
+            (0,
              (Array.zeroCreate gridWidth
               |> Array.updateAt (startPosition |> Set.minElement) 1L))
 
